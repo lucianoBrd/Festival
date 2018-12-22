@@ -14,9 +14,13 @@ class SecurityController extends AbstractController
 {
     /**
      * @Route("/inscription", name="security_registration")
+     * @Route("/user/{id}/edit", name="user_edit")
      */
-    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
-        $user = new User();
+    public function registration(User $user = null, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
+        
+        if(!$user){
+            $user = new User();
+        }
 
         $form = $this->createForm(RegistrationType::class, $user);
 
@@ -26,6 +30,10 @@ class SecurityController extends AbstractController
             $hash = $encoder->encodePassword($user, $user->getPassword());
 
             $user->setPassword($hash);
+
+            if(!$user->getId()){
+                $user->setCreatedAt(new \DateTime());
+            }
             $manager->persist($user);
             $manager->flush();
 
@@ -33,8 +41,19 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/registration.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'user' => $user,
+            'editMode' => $user->getId() != null
         ]);
+    }
+
+    /**
+     * @Route("/user/{id}/delete", name="user_delete")
+     */
+    public function delete(User $user = null, ObjectManager $manager){
+        $manager->remove($user);
+        $manager->flush();
+        return $this->redirectToRoute('security_login');
     }
     
     /**
