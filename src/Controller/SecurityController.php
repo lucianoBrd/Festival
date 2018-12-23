@@ -54,7 +54,7 @@ class SecurityController extends AbstractController
     public function delete(User $user = null, ObjectManager $manager){
         $manager->remove($user);
         $manager->flush();
-        return $this->redirectToRoute('security_login');
+        return $this->redirectToRoute('user_all');
     }
 
     /**
