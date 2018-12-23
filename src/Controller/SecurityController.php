@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,6 +55,17 @@ class SecurityController extends AbstractController
         $manager->remove($user);
         $manager->flush();
         return $this->redirectToRoute('security_login');
+    }
+
+    /**
+     * @Route("/user", name="user_all")
+     */
+    public function allUser(UserRepository $repo){
+        $users = $repo->findAll();
+
+        return $this->render('security/all.html.twig', [
+            'users' => $users
+        ]);
     }
     
     /**

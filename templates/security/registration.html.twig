@@ -3,7 +3,11 @@
 
 {% block body %}
     <h1>
+      {% if editMode %}
+        Modifier
+      {% else %}
         Inscription
+      {% endif %}
     </h1>
 
     {{ form_start(form) }}

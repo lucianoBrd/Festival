@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<h1>
+  Liste des utilisateurs
+</h1>
+
+<table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Prénom Nom</th>
+            <th scope="col">Email</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td><a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-outline-primary">Modifier</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table> 
+{% endblock %}
