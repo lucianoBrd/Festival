@@ -15,6 +15,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
+
+    const ROLE = [
+        0 => 'admin',
+        1 => 'manager', // gérant d'un hébergement
+        2 => 'staff'
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,24 +28,27 @@ class SecurityController extends AbstractController
 
         $form->handleRequest($request);
 
+        $editMode = $user->getId() != null;
+
         if($form->isSubmitted() && $form->isValid()){
             $hash = $encoder->encodePassword($user, $user->getPassword());
 
             $user->setPassword($hash);
 
-            if(!$user->getId()){
-                $user->setCreatedAt(new \DateTime());
-            }
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('security_login');
+            
+            if(!$editMode){
+                return $this->redirectToRoute('security_login');
+            } 
+            return $this->redirectToRoute('user_all');
         }
 
         return $this->render('security/registration.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
-            'editMode' => $user->getId() != null
+            'editMode' => $editMode
         ]);
     }
 
@@ -60,8 +64,13 @@ class SecurityController extends AbstractController
     /**
      * @Route("/user", name="user_all")
      */
-    public function allUser(UserRepository $repo){
-        $users = $repo->findAll();
+    public function allUser(UserRepository $repo, PaginatorInterface $paginator, Request $request){
+        
+        $users = $paginator->paginate(
+            $repo->findQuery(), /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
 
         return $this->render('security/all.html.twig', [
             'users' => $users
