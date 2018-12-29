@@ -73,6 +73,7 @@ class ProjectionRoom
         return $this;
     }
 
+
     /**
      * @return Collection|Category[]
      */
