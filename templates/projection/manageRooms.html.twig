@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <h1>
+        Ajout d'une salle
+    </h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.name, {'label': 'Nom de la salle', 'attr': {'placeholder': 'Nom de la salle'}}) }}
+    {{ form_row(form.capacity, {'label': 'Capacité', 'attr': {'placeholder': 'Capacité'}}) }}
+    {{ form_row(form.idCategory, {'label': 'Catégorie de films'}) }}
+
+    <button type="submit" class="btn btn-outline-primary">Ajouter la salle</button>
+
+    {{ form_end(form) }}
+
+{% endblock body %}
