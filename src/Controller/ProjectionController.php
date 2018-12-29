@@ -58,7 +58,8 @@ class ProjectionController extends AbstractController
         }
 
         return $this->render('projection/rooms/manage.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'editMode' => $room->getId() != null
         ]);
     }
 

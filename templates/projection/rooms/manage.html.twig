@@ -3,7 +3,11 @@
 
 {% block body %}
     <h1>
+        {% if editMode %}
+        Modification d'une salle
+        {% else %}
         Ajout d'une salle
+        {% endif %}
     </h1>
 
     {{ form_start(form) }}
@@ -11,7 +15,13 @@
     {{ form_row(form.capacity, {'label': 'Capacité', 'attr': {'placeholder': 'Capacité'}}) }}
     {{ form_row(form.idCategory, {'label': 'Catégorie de films'}) }}
 
-    <button type="submit" class="btn btn-outline-primary">Ajouter la salle</button>
+    <button type="submit" class="btn btn-outline-primary">
+        {% if editMode %}
+        Modifier la salle
+        {% else %}
+        Ajouter la salle
+        {% endif %}
+    </button>
 
     {{ form_end(form) }}
 
