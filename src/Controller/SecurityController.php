@@ -5,12 +5,15 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
+use App\Form\ForgottenPasswordType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -75,6 +78,82 @@ class SecurityController extends AbstractController
         return $this->render('security/all.html.twig', [
             'users' => $users
         ]);
+    }
+
+    /**
+     * @Route("/motdepasse", name="forgotten_password")
+     */
+    public function forgottenPassword(UserRepository $repo, Request $request, ObjectManager $manager, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator){
+       
+        $form = $this->createForm(ForgottenPasswordType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $email = $form->getData();
+            $user = $repo->findOneByEmail($email);
+
+            if ($user === null) {
+                $this->addFlash('danger', 'Email Inconnu');
+                //return $this->redirectToRoute('security_login');
+            }
+            $token = $tokenGenerator->generateToken();
+            $user->setResetToken($token);
+            $manager->persist($user);
+            $manager->flush();
+
+            $url = $this->generateUrl('reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
+
+            $message = (new \Swift_Message('Mot de passe oublie'))
+                ->setFrom('support@festival.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    "Bonjour, <br><br>Cliquer sur le lien suivant afin de reinitialiser votre mot de passe : <br><a href=".$url.'>lien</a><br><br>Cordialement,<br>Le festival.',
+                    'text/html'
+                );
+
+            $mailer->send($message);
+
+            $this->addFlash('notice', 'Mail envoyé');
+
+            //return $this->redirectToRoute('security_login');
+        }
+
+        return $this->render('security/forgotten_password.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/reset_password/{token}", name="reset_password")
+     */
+    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder)
+    {
+
+        if ($request->isMethod('POST')) {
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $user = $entityManager->getRepository(User::class)->findOneByResetToken($token);
+            /* @var $user User */
+
+            if ($user === null) {
+                $this->addFlash('danger', 'Token Inconnu');
+                return $this->redirectToRoute('homepage');
+            }
+
+            $user->setResetToken(null);
+            $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
+            $entityManager->flush();
+
+            $this->addFlash('notice', 'Mot de passe mis à jour');
+
+            return $this->redirectToRoute('homepage');
+        }else {
+
+            return $this->render('security/reset_password.html.twig', [
+                'token' => $token
+            ]);
+        }
+
     }
     
     /**
