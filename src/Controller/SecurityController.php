@@ -107,7 +107,10 @@ class SecurityController extends AbstractController
                 ->setFrom('support@festival.com')
                 ->setTo($user->getEmail())
                 ->setBody(
-                    "Bonjour, <br><br>Cliquer sur le lien suivant afin de reinitialiser votre mot de passe : <br><a href=".$url.'>lien</a><br><br>Cordialement,<br>Le festival.',
+                    $this->renderView('security/email.html.twig',[
+                        'url' => $url,
+                        'user' => $user
+                    ]),
                     'text/html'
                 );
 
