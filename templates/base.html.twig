@@ -39,6 +39,14 @@
             </div>
           </nav>
           <div class="container">
+              {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-dismissible alert-{{ label }}">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ message }} 
+                    </div>
+                {% endfor %}
+            {% endfor %}
             {% block body %}{% endblock %}
           </div>
         
@@ -47,7 +55,7 @@
           <footer class="page-footer font-small ">
 
             <!-- Copyright -->
-            <div class="footer-copyright text-center py-3">© 2018 Copyright
+            <div class="footer-copyright text-center py-3">© 2019 Copyright
               <a href="{{ path('index') }}"> Festival</a>
             </div>
             <!-- Copyright -->

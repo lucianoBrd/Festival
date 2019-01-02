@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Form\ResetPasswordType;
 use App\Repository\UserRepository;
 use App\Form\ForgottenPasswordType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -43,8 +44,10 @@ class SecurityController extends AbstractController
 
             
             if(!$editMode){
+                $this->addFlash('success', 'Utilisateur créé');
                 return $this->redirectToRoute('security_login');
             } 
+            $this->addFlash('success', 'Utilisateur modifié');
             return $this->redirectToRoute('user_all');
         }
 
@@ -61,6 +64,7 @@ class SecurityController extends AbstractController
     public function delete(User $user = null, ObjectManager $manager){
         $manager->remove($user);
         $manager->flush();
+        $this->addFlash('success', 'Utilisateur supprimé');
         return $this->redirectToRoute('user_all');
     }
 
@@ -118,7 +122,7 @@ class SecurityController extends AbstractController
 
             $this->addFlash('success', 'Mail envoyé');
 
-            return $this->redirectToRoute('forgotten_password');
+            return $this->redirectToRoute('security_login');
         }
 
         return $this->render('security/forgotten_password.html.twig', [
@@ -129,31 +133,32 @@ class SecurityController extends AbstractController
     /**
      * @Route("/reset_password/{token}", name="reset_password")
      */
-    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder)
+    public function resetPassword(UserRepository $repo, Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder, ObjectManager $manager)
     {
+        $form = $this->createForm(ResetPasswordType::class);
+        $form->handleRequest($request);
 
-        if ($request->isMethod('POST')) {
-            $entityManager = $this->getDoctrine()->getManager();
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            $user = $entityManager->getRepository(User::class)->findOneByResetToken($token);
-            /* @var $user User */
+            $user = $repo->findOneByResetToken($token);
 
             if ($user === null) {
-                $this->addFlash('danger', 'Token Inconnu');
-                return $this->redirectToRoute('homepage');
+                $this->addFlash('danger', 'Utilisateur Inconnu');
+                return $this->redirectToRoute('forgotten_password');
             }
 
             $user->setResetToken(null);
-            $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
-            $entityManager->flush();
+            $user->setPassword($passwordEncoder->encodePassword($user, $form->getData()->getPassword()));
+            $manager->persist($user);
+            $manager->flush();
 
-            $this->addFlash('notice', 'Mot de passe mis à jour');
+            $this->addFlash('success', 'Mot de passe mis à jour');
 
-            return $this->redirectToRoute('homepage');
-        }else {
-
+            return $this->redirectToRoute('security_login');
+        } else {
             return $this->render('security/reset_password.html.twig', [
-                'token' => $token
+                'token' => $token,
+                'form' => $form->createView()
             ]);
         }
 
