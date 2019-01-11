@@ -26,11 +26,6 @@ class Hosting
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $type;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $address;
 
     /**
@@ -42,6 +37,12 @@ class Hosting
      * @ORM\OneToMany(targetEntity="App\Entity\Room", mappedBy="idHosting")
      */
     private $idRoom;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Type")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $idType;
 
     public function __construct()
     {
@@ -62,18 +63,6 @@ class Hosting
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -143,6 +132,18 @@ class Hosting
                 $idRoom->setIdHosting(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdType(): ?Type
+    {
+        return $this->idType;
+    }
+
+    public function setIdType(?Type $idType): self
+    {
+        $this->idType = $idType;
 
         return $this;
     }

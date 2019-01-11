@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+  <h1>
+    Nouvel hébergement
+  </h1>
+
+  {{ form_start(form) }}
+  {{ form_row(form.name, {'label': 'Nom de l\'hébergement', 'attr': {'placeholder': 'Nom de l\'hébergement'}}) }}
+  {{ form_row(form.idType, {'label': 'Type'}) }}
+  {{ form_row(form.address, {'label': 'Adresse', 'attr': {'placeholder': 'Adresse'}}) }}
+  {{ form_row(form.idService, {'label': 'Service'}) }}
+  <button type="submit" class="btn btn-outline-primary">Ajouter</button>
+{% endblock %}
