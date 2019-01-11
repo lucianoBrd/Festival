@@ -45,6 +45,8 @@ class ProjectionController extends AbstractController
             $room = new ProjectionRoom();
         }
 
+        $editMode = $room->getId() != null;
+
         $form = $this->createForm(ProjectionRoomType::class, $room);
 
         $form->handleRequest($request);
@@ -54,12 +56,22 @@ class ProjectionController extends AbstractController
             $manager->persist($room);
             $manager->flush();
 
+            if(!$editMode)
+            {
+                $this->addFlash('success', 'Salle créée.');
+            }
+            else
+            {
+                $this->addFlash('success', 'Salle modifiée.');
+            }
+
             return $this->redirectToRoute('rooms');
         }
 
         return $this->render('projection/rooms/manage.html.twig', [
             'form' => $form->createView(),
-            'editMode' => $room->getId() != null
+            'editMode' => $editMode,
+            'room' => $room
         ]);
     }
 
@@ -71,6 +83,7 @@ class ProjectionController extends AbstractController
         $manager->remove($room);
         $manager->flush();
 
+        $this->addFlash('success', 'Salle supprimée.');
         return $this->redirectToRoute('rooms');
     }
 }
