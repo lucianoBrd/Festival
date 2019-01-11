@@ -10,15 +10,18 @@ class CategoryFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $faker = \Faker\Factory::create('fr_FR');
+        $category1 = new Category();
+        $category1->setName("Courts Métrages");
+        $manager->persist($category1);
 
-        // 3 Catégories fakées
-        for ($i = 1; $i <= 3; $i++) {
-            $category = new Category();
-            $category->setName($faker->sentence($nbWords = 3));
+        $category2 = new Category();
+        $category2->setName("Longs Métrages");
+        $manager->persist($category2);
 
-            $manager->persist($category);
-        }
+        $category3 = new Category();
+        $category3->setName("Un Certain Regard");
+        $manager->persist($category3);
+
 
         $manager->flush();
     }
