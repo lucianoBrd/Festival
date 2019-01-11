@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+  <h1>
+    Gestion des chambres de {{hosting.name}}
+    <a href="{{ path('hosting_all') }}" class="btn btn-outline-secondary">Terminé</a>
+  </h1>
+
+  {{ form_start(form) }}
+  {{ form_row(form.place, {'label': 'Nombre de places', 'attr': {'placeholder': 'Nombre de places'}}) }}
+  {{ form_row(form.price, {'label': 'Prix', 'attr': {'placeholder': 'Prix'}}) }}
+  {{ form_row(form.roomNumber, {'label': 'Numéro de la chambre', 'attr': {'placeholder': 'Numéro de la chambre'}}) }}
+  <input type="hidden" name="id" value="{hosting.id}">
+  <button type="submit" class="btn btn-outline-primary">Ajouter</button>
+  {{ form_end(form) }}
+
+  <section class="rooms">
+    {% for room in rooms %}
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Numéro de chambre : {{ room.roomNumber }}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">Nombre de places : {{ room.place }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Prix : {{ room.price }} €</h6>
+                <a href="{{ path('hosting_room_edit', {'id': room.id}) }}" class="card-link" data-ytta-id="-">Editer</a>
+ 
+            </div>
+        </div>
+ 
+    {% endfor %}
+    <div class="pagination">
+        {{ knp_pagination_render(rooms) }}
+    </div>
+  </section> 
+{% endblock %}

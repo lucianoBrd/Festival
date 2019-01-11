@@ -19,6 +19,15 @@ class HostingRepository extends ServiceEntityRepository
         parent::__construct($registry, Hosting::class);
     }
 
+    /**
+      * @return Query
+      */
+      public function findQuery()
+      {
+          return $this->createQueryBuilder('h')
+              ->getQuery();
+      }
+
     // /**
     //  * @return Hosting[] Returns an array of Hosting objects
     //  */

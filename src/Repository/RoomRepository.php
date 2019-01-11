@@ -19,6 +19,17 @@ class RoomRepository extends ServiceEntityRepository
         parent::__construct($registry, Room::class);
     }
 
+    /**
+    * @return Query
+    */
+    public function findQuery($id)
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.idHosting = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+    }
+
     // /**
     //  * @return Room[] Returns an array of Room objects
     //  */
