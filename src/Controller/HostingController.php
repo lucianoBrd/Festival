@@ -42,7 +42,7 @@ class HostingController extends AbstractController
     /**
      * @Route("/hosting", name="hosting_all")
      */
-    public function allUser(HostingRepository $repo, PaginatorInterface $paginator, Request $request){
+    public function allHosting(HostingRepository $repo, PaginatorInterface $paginator, Request $request){
         
         $hostings = $paginator->paginate(
             $repo->findQuery(), /* query NOT result */

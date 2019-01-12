@@ -19,6 +19,15 @@ class ServiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Service::class);
     }
 
+    /**
+    * @return Query
+    */
+    public function findQuery()
+    {
+        return $this->createQueryBuilder('s')
+            ->getQuery();
+    }
+
     // /**
     //  * @return Service[] Returns an array of Service objects
     //  */

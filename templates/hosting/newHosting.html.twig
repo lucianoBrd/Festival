@@ -8,8 +8,10 @@
 
   {{ form_start(form) }}
   {{ form_row(form.name, {'label': 'Nom de l\'hébergement', 'attr': {'placeholder': 'Nom de l\'hébergement'}}) }}
+  <a class="badge badge-pill badge-primary" href="">Gestion des types</a>
   {{ form_row(form.idType, {'label': 'Type'}) }}
   {{ form_row(form.address, {'label': 'Adresse', 'attr': {'placeholder': 'Adresse'}}) }}
+  <a class="badge badge-pill badge-primary" href="{{ path('service_all') }}">Gestion des services</a>
   {{ form_row(form.idService, {'label': 'Service'}) }}
   <button type="submit" class="btn btn-outline-primary">Ajouter</button>
   {{ form_end(form) }}
