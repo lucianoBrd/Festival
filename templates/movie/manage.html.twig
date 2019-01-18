@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <h1>
+        {% if editMode %}
+        Modification d'un film
+        {% else %}
+        Ajout d'un film
+        {% endif %}
+    </h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.title, {'label': 'Nom du film', 'attr': {'placeholder': 'Nom du film'}}) }}
+    {{ form_row(form.length, {'label': 'Durée du film', 'attr': {'placeholder': 'Durée'}}) }}
+    {{ form_row(form.competing, {'label': 'Le film est-il en compétition ?'}) }}
+    {{ form_row(form.idDirector, {'label': 'Nom du réalisateur'})}}
+    {{ form_row(form.idCategory, {'label': 'Catégorie du film'}) }}
+    
+
+    <button type="submit" class="btn btn-outline-primary">
+        {% if editMode %}
+        Modifier le film
+        {% else %}
+        Ajouter le film
+        {% endif %}
+    </button>
+
+    {{ form_end(form) }}
+
+{% endblock body %}

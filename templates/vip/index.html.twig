@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des VIPs{% endblock %}
+
+{% block body %}
+<h1>Liste des VIPs</h1>
+
+<section class="VIPs">
+
+    {% for vip in vips %}
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ vip.name }}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">profession : {{ vip.profession }}</h6>
+                <p class="card-text">{% if vip.jury %}
+                        Membre du jury <br>
+                        {% else %}
+                        Pas membre du jury <br>
+                        {% endif %}
+                        {% if vip.invited %}
+                        Invité
+                        {% else %}
+                        Pas invité
+                        {% endif %}
+                    </p>
+                <a href="{{ path('vip_edit', {'id': vip.id}) }}" class="card-link" data-ytta-id="-">Modifier</a>
+                <a href="{{ path('vip_delete', {'id' : vip.id}) }}" class="card-link" data-ytta-id="-">Supprimer</a>
+            </div>
+        </div>
+    {% endfor %}
+
+</section>
+<a href="{{ path('vip_create') }}"><button type="button" class="btn btn-primary">Ajouter un Vip</button></a>
+{% endblock %}
