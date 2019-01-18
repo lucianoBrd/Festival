@@ -5,16 +5,15 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProjectionController extends AbstractController
+class VipController extends AbstractController
 {
     /**
-     * @Route("/projection", name="projection")
+     * @Route("/vip", name="vip")
      */
     public function index()
     {
-            return $this->render('projection/index.html.twig', [                
+        return $this->render('vip/index.html.twig', [
+            'controller_name' => 'VipController',
         ]);
-
     }
 }
-

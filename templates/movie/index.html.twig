@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des films en compétition{% endblock %}
+
+{% block body %}
+<h1>Liste des films en compétition</h1>
+
+<section class="movies">
+
+    {% for movie in movies %}
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ movie.title }}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">durée : {{ movie.length }}</h6>
+                <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Blanditiis, explicabo repellendus? Corporis nam fuga ut, quasi quo, voluptas consectetur molestiae voluptatum quibusdam impedit obcaecati quisquam alias quas sapiente tempore qui error. Earum culpa aliquid officia reiciendis iure impedit tempore fugit!
+                    </p>
+                <a href="{{ path('movie_edit', {'id': movie.id}) }}" class="card-link" data-ytta-id="-">Modifier</a>
+                <a href="{{ path('movie_delete', {'id' : movie.id}) }}" class="card-link" data-ytta-id="-">Supprimer</a>
+            </div>
+        </div>
+    {% endfor %}
+
+</section>
+<a href="{{ path('movie_create') }}"><button type="button" class="btn btn-primary btn-lg">Ajouter un film</button></a>
+{% endblock %}
