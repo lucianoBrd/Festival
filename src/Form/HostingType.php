@@ -21,6 +21,7 @@ class HostingType extends AbstractType
                 'choice_label' => 'name'
             ])
             ->add('address')
+            ->add('nbPlace')
             ->add('idService', EntityType::class, [
                 'class' => Service::class,
                 'multiple' => true,

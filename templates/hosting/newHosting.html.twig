@@ -15,6 +15,7 @@
   <a class="badge badge-pill badge-primary" href="{{ path('type_all') }}">Gestion des types</a>
   {{ form_row(form.idType, {'label': 'Type'}) }}
   {{ form_row(form.address, {'label': 'Adresse', 'attr': {'placeholder': 'Adresse'}}) }}
+  {{ form_row(form.nbPlace, {'label': 'Nombre de palces', 'attr': {'readonly': ''}}) }}
   <a class="badge badge-pill badge-primary" href="{{ path('service_all') }}">Gestion des services</a>
   {{ form_row(form.idService, {'label': 'Service'}) }}
   <button type="submit" class="btn btn-outline-primary">

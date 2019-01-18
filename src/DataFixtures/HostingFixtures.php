@@ -48,19 +48,24 @@ class HostingFixtures extends Fixture
 
             for ($j=0; $j <= 8 ; $j++) { 
                 $hosting = new Hosting();
-                $hosting->setName($faker->sentence())
+                $hosting->setName($faker->catchPhrase())
                         ->setAddress($faker->address())
+                        ->setNbPlace(0)
                         ->addIdService($service)
                         ->setIdType($type);
                 $manager->persist($hosting);
+                $nb = 0;
                 for ($k=0; $k <= mt_rand(50,100) ; $k++) { 
                     $room = new Room();
                     $room->setPlace(mt_rand(1,4))
                         ->setPrice(mt_rand(32,90))
                         ->setRoomNumber($k)
                         ->setIdHosting($hosting);
+                    $nb = $nb + $room->getPlace();
                     $manager->persist($room);
                 }
+                $hosting->setNbPlace($nb);
+                $manager->persist($hosting);
             }
         }
 

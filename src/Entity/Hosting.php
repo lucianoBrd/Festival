@@ -29,6 +29,11 @@ class Hosting
     private $address;
 
     /**
+     * @ORM\Column(type="integer", options={"default":0}, nullable=true)
+     */
+    private $nbPlace;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Service")
      */
     private $idService;
@@ -48,6 +53,16 @@ class Hosting
     {
         $this->idService = new ArrayCollection();
         $this->idRoom = new ArrayCollection();
+    }
+
+    public function updateNbPlace()
+    {
+        $nb = 0;
+        $rooms = $this->getIdRoom();
+        foreach($rooms as $room){
+            $nb = $nb + $room->getPlace();
+        }
+        $this->setNbPlace($nb);
     }
 
     public function getId(): ?int
@@ -75,6 +90,18 @@ class Hosting
     public function setAddress(string $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getNbPlace(): ?int
+    {
+        return $this->nbPlace;
+    }
+
+    public function setNbPlace(int $nbPlace): self
+    {
+        $this->nbPlace = $nbPlace;
 
         return $this;
     }

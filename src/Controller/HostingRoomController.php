@@ -27,7 +27,8 @@ class HostingRoomController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
+            $hosting->updateNbPlace();
+            $manager->persist($hosting);
             $manager->persist($room);
             $manager->flush();
 
@@ -54,7 +55,10 @@ class HostingRoomController extends AbstractController
      * @Route("/hosting/room/{id}/delete", name="hosting_room_delete")
      */
     public function delete(Room $room = null, ObjectManager $manager){
-        $id = $room->getIdHosting()->getId();
+        $hosting = $room->getIdHosting();
+        $id = $hosting->getId();
+        $hosting->updateNbPlace();
+        $manager->persist($hosting);
         $manager->remove($room);
         $manager->flush();
         $this->addFlash('success', 'Chambre supprimé');
@@ -71,7 +75,8 @@ class HostingRoomController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            
+            $hosting->updateNbPlace();
+            $manager->persist($hosting);
             $manager->persist($room);
             $manager->flush();
 
