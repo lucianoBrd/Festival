@@ -2,59 +2,66 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Vip;
+use App\Form\VipType;
+use App\Repository\VipRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class VipController extends AbstractController
 {
     /**
      * @Route("/vip", name="vip")
      */
-    public function index()
+    public function index(VipRepository $repo)
     {
+        $vips = $repo->findAll();
         return $this->render('vip/index.html.twig', [
             'controller_name' => 'VipController',
+            'vips'=> $vips
         ]);
     }
-    
+
     /**
-     * @Route("/Vips/new", name="Vip_create")
-     * @Route("/Vips/{id}/edit", name="Vip_edit")
+     * @Route("/vip/new", name="vip_create")
+     * @Route("/vip/{id}/edit", name="vip_edit")
      */
-    public function manageVips(Request $request, ObjectManager $manager, Vip $Vip = null)
+    public function manageVips(Request $request, ObjectManager $manager, Vip $vip = null)
     {
-        if (!$Vip)
+        if (!$vip)
         {
-            $Vip = new Vip();
+            $vip = new Vip();
         }
 
-        $form = $this->createForm(VipType::class, $Vip);
+        $form = $this->createForm(VipType::class, $vip);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $manager->persist($Vip);
+            $manager->persist($vip);
             $manager->flush();
 
-            return $this->redirectToRoute('Vips');
+            return $this->redirectToRoute('vip');
         }
 
-        return $this->render('/Vip/manage.html.twig', [
+        return $this->render('/vip/manage.html.twig', [
             'form' => $form->createView(),
-            'editMode' => $Vip->getId() != null
+            'editMode' => $vip->getId() != null
         ]);
     }
 
      /**
-     * @Route("/Vips/{id}/delete", name="Vip_delete")
+     * @Route("/vip/{id}/delete", name="vip_delete")
      */
-    public function deleteVip(Vip $Vip, ObjectManager $manager)
+    public function deleteVip(Vip $vip, ObjectManager $manager)
     {
-        $manager->remove($Vip);
+        $manager->remove($vip);
         $manager->flush();
 
-        return $this->redirectToRoute('Vips');
+        return $this->redirectToRoute('vip');
     }
 
 }

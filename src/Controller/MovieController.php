@@ -15,7 +15,7 @@ use App\Repository\MovieRepository;
 class MovieController extends AbstractController
 {
     /**
-     * @Route("/movies", name="movies")
+     * @Route("/movie", name="movie")
      */
     public function index(MovieRepository $repo)
     {
@@ -27,8 +27,8 @@ class MovieController extends AbstractController
     }
 
    /**
-     * @Route("/movies/new", name="movie_create")
-     * @Route("/movies/{id}/edit", name="movie_edit")
+     * @Route("/movie/new", name="movie_create")
+     * @Route("/movie/{id}/edit", name="movie_edit")
      */
     public function managemovies(Request $request, ObjectManager $manager, movie $movie = null)
     {
@@ -46,7 +46,7 @@ class MovieController extends AbstractController
             $manager->persist($movie);
             $manager->flush();
 
-            return $this->redirectToRoute('movies');
+            return $this->redirectToRoute('movie');
         }
 
         return $this->render('/movie/manage.html.twig', [
@@ -56,14 +56,14 @@ class MovieController extends AbstractController
     }
 
      /**
-     * @Route("/movies/{id}/delete", name="movie_delete")
+     * @Route("/movie/{id}/delete", name="movie_delete")
      */
     public function deletemovie(movie $movie, ObjectManager $manager)
     {
         $manager->remove($movie);
         $manager->flush();
 
-        return $this->redirectToRoute('movies');
+        return $this->redirectToRoute('movie');
     }
 
 }

@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    <h1>
+        {% if editMode %}
+        Modification d'un Vip
+        {% else %}
+        Ajout d'un Vip
+        {% endif %}
+    </h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.name, {'label': 'Nom du Vip', 'attr': {'placeholder': 'Nom du Vip'}}) }}
+    {{ form_row(form.profession, {'label': 'Profession du Vip', 'attr': {'placeholder': 'Profession du Vip'}}) }}
+    {{ form_row(form.jury, {'label': 'Le Vip fait-il partie du jury?'}) }}
+    {{ form_row(form.invited, {'label': 'Le Vip est-il invité ?'})}}
+    {{ form_row(form.idMovie, {'label': 'Film :'}) }}
+    
+
+    <button type="submit" class="btn btn-outline-primary">
+        {% if editMode %}
+        Modifier le Vip
+        {% else %}
+        Ajouter le Vip
+        {% endif %}
+    </button>
+
+    {{ form_end(form) }}
+
+{% endblock body %}
