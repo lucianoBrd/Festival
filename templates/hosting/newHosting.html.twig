@@ -25,6 +25,7 @@
       {% endif %}
   </button>
   {% if editMode %}
+        <a href="{{ path('hosting_room', {'id': hosting.id}) }}" class="btn btn-outline-secondary">Gestion des chambres</a>
         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">Supprimer</button>
         <div class="modal" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
             <div class="modal-dialog" role="document">
