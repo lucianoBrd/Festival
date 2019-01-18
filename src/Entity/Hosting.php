@@ -26,12 +26,12 @@ class Hosting
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $type;
+    private $address;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer", options={"default":0}, nullable=true)
      */
-    private $address;
+    private $nbPlace;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Service")
@@ -39,14 +39,30 @@ class Hosting
     private $idService;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Room", mappedBy="idHosting")
+     * @ORM\OneToMany(targetEntity="App\Entity\Room", mappedBy="idHosting", orphanRemoval=true)
      */
     private $idRoom;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Type")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $idType;
 
     public function __construct()
     {
         $this->idService = new ArrayCollection();
         $this->idRoom = new ArrayCollection();
+    }
+
+    public function updateNbPlace()
+    {
+        $nb = 0;
+        $rooms = $this->getIdRoom();
+        foreach($rooms as $room){
+            $nb = $nb + $room->getPlace();
+        }
+        $this->setNbPlace($nb);
     }
 
     public function getId(): ?int
@@ -66,18 +82,6 @@ class Hosting
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
     public function getAddress(): ?string
     {
         return $this->address;
@@ -86,6 +90,18 @@ class Hosting
     public function setAddress(string $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getNbPlace(): ?int
+    {
+        return $this->nbPlace;
+    }
+
+    public function setNbPlace(int $nbPlace): self
+    {
+        $this->nbPlace = $nbPlace;
 
         return $this;
     }
@@ -143,6 +159,18 @@ class Hosting
                 $idRoom->setIdHosting(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdType(): ?Type
+    {
+        return $this->idType;
+    }
+
+    public function setIdType(?Type $idType): self
+    {
+        $this->idType = $idType;
 
         return $this;
     }

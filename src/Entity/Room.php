@@ -17,9 +17,9 @@ class Room
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
-    private $type;
+    private $place;
 
     /**
      * @ORM\Column(type="float")
@@ -42,14 +42,14 @@ class Room
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getPlace(): ?int
     {
-        return $this->type;
+        return $this->place;
     }
 
-    public function setType(string $type): self
+    public function setPlace(int $place): self
     {
-        $this->type = $type;
+        $this->place = $place;
 
         return $this;
     }

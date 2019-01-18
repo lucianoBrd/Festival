@@ -4,27 +4,36 @@
         <meta charset="UTF-8">
         <title>{% block title %}Festival{% endblock %}</title>
         <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css"/>
-        <link rel="stylesheet" href="assets/css/default.css"/>
+        <link rel="stylesheet" href="/assets/css/default.css"/>
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        
+      {% set currentPath = path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) %}
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <img style=" width: 5%;" src="assets/images/logo.svg" alt="">
+            <img style=" width: 5%;" src="/assets/images/logo.svg" alt="logo">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
           
             <div class="collapse navbar-collapse" id="navbarColor01">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Features <span class="sr-only">(current)</span></a>
+                <li class="nav-item {{ currentPath == path('index')? 'active':''}}">
+                  <a class="nav-link" href="{{ path('index') }}">Accueil</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Pricing</a>
+                <li class="nav-item dropdown {{ currentPath == path('user_all') or currentPath == path('security_registration')? 'active':''}}">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Utilisateur</a>
+                  <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                    <a class="dropdown-item" href="{{ path('user_all') }}">Liste des utilisateurs</a>
+                    <a class="dropdown-item" href="{{ path('security_registration') }}">Nouvel utilisateur</a>
+                  </div>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">About</a>
+                <li class="nav-item dropdown {{ currentPath == path('hosting_all')? 'active':''}}">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Hébergement</a>
+                  <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                    <a class="dropdown-item" href="{{ path('hosting_all') }}">Liste des hébergements</a>
+                    <a class="dropdown-item" href="{{ path('new_hosting') }}">Nouvel hébergement</a>
+                  </div>
                 </li>
               </ul>
               <div class="form-inline my-2 my-lg-0">
@@ -37,24 +46,34 @@
             </div>
           </nav>
           <div class="container">
-            {% for label, messages in app.flashes %}
-              {% for message in messages %}
-              <div class="alert alert-dismissible alert-{{ label }}">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ message }}
-              </div>
-              {% endfor %}
+              {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-dismissible alert-{{ label }}">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ message }} 
+                    </div>
+                {% endfor %}
             {% endfor %}
             {% block body %}{% endblock %}
           </div>
         
+          <!-- Footer -->
+          <div class="divider"></div>
+          <footer class="page-footer font-small ">
+
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© {{ "now"|date("Y") }} Copyright
+              <a href="{{ path('index') }}"> Festival</a>
+            </div>
+            <!-- Copyright -->
+
+          </footer>
+          <!-- Footer -->
         {% block javascripts %}
-          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"></script>
+          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+          <script src="/assets/js/default.js"></script>
         {% endblock %}
     </body>
 </html>

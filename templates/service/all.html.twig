@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<h1>
+  Liste des services
+</h1>
+
+<table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col"><a href="{{ path('service_new') }}" class="btn btn-primary">Nouveau service</a></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for service in services %}
+            <tr>
+                <td>{{ service.type }}</td>
+                <td><a href="{{ path('service_edit', {'id': service.id}) }}" class="btn btn-outline-primary">Modifier</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+</table> 
+<div class="pagination">
+  {{ knp_pagination_render(services) }}
+</div>
+{% endblock %}

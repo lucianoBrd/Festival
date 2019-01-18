@@ -2,3 +2,14 @@ h1{
     margin-top: 5%;
     margin-bottom: 5%;
 }
+
+.divider{
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #55595c;
+    margin: 10% 10% 0% 10%;
+}
+
+.alert, .card{
+    margin: 5%;
+}

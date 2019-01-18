@@ -15,6 +15,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
+
+    const ROLE = [
+        0 => 'admin',
+        1 => 'manager', // gérant d'un hébergement
+        2 => 'staff'
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -53,6 +60,12 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $role;
+
+    /**
+     * @var string le token qui servira lors de l'oubli de mot de passe
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $resetToken;
 
     public function getId(): ?int
     {
@@ -117,6 +130,22 @@ class User implements UserInterface
         $this->role = $role;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResetToken(): string
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @param string $resetToken
+     */
+    public function setResetToken(?string $resetToken): void
+    {
+        $this->resetToken = $resetToken;
     }
 
     public function eraseCredentials(){}
