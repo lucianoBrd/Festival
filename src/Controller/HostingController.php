@@ -15,27 +15,32 @@ class HostingController extends AbstractController
 {
     /**
      * @Route("/hosting/new", name="new_hosting")
+     * @Route("/hosting/{id}/edit", name="hosting_edit")
      */
-    public function newHosting(Request $request, ObjectManager $manager)
+    public function newHosting(Hosting $hosting = null, Request $request, ObjectManager $manager)
     {
-        $hosting = new Hosting();
+        if(!$hosting){
+            $hosting = new Hosting();
+        }
 
         $form = $this->createForm(HostingType::class, $hosting);
 
         $form->handleRequest($request);
+
+        $editMode = $hosting->getId() != null;
 
         if($form->isSubmitted() && $form->isValid()){
 
             $manager->persist($hosting);
             $manager->flush();
 
-            
             return $this->redirectToRoute('hosting_room', ['id' => $hosting->getId()]);
         }
 
         return $this->render('hosting/newHosting.html.twig', [
             'form' => $form->createView(),
-            'hosting' => $hosting
+            'hosting' => $hosting,
+            'editMode' => $editMode
         ]);
     }
 
@@ -53,5 +58,15 @@ class HostingController extends AbstractController
         return $this->render('hosting/all.html.twig', [
             'hostings' => $hostings
         ]);
+    }
+
+    /**
+     * @Route("/hosting/{id}/delete", name="hosting_delete")
+     */
+    public function delete(Hosting $hosting = null, ObjectManager $manager){
+        $manager->remove($hosting);
+        $manager->flush();
+        $this->addFlash('success', 'Hébergement supprimé');
+        return $this->redirectToRoute('hosting_all');
     }
 }

@@ -34,7 +34,7 @@ class Hosting
     private $idService;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Room", mappedBy="idHosting")
+     * @ORM\OneToMany(targetEntity="App\Entity\Room", mappedBy="idHosting", orphanRemoval=true)
      */
     private $idRoom;
 

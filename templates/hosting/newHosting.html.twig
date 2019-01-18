@@ -3,7 +3,11 @@
 
 {% block body %}
   <h1>
-    Nouvel hébergement
+      {% if editMode %}
+        Modifier
+      {% else %}
+        Nouvel hébergement
+      {% endif %}
   </h1>
 
   {{ form_start(form) }}
@@ -13,6 +17,34 @@
   {{ form_row(form.address, {'label': 'Adresse', 'attr': {'placeholder': 'Adresse'}}) }}
   <a class="badge badge-pill badge-primary" href="{{ path('service_all') }}">Gestion des services</a>
   {{ form_row(form.idService, {'label': 'Service'}) }}
-  <button type="submit" class="btn btn-outline-primary">Ajouter</button>
+  <button type="submit" class="btn btn-outline-primary">
+      {% if editMode %}
+          Modifier
+      {% else %}
+          Ajouter
+      {% endif %}
+  </button>
+  {% if editMode %}
+        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">Supprimer</button>
+        <div class="modal" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Supprimer</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Voulez-vous vraiment supprimer {{hosting.name}} ?</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="{{ path('hosting_delete', {'id': hosting.id}) }}" class="btn btn-primary">Confirmer</a>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    {% endif %}
   {{ form_end(form) }}
 {% endblock %}
