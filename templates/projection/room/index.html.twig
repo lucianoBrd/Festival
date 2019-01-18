@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Salles de projection{% endblock %}
+
+{% block body %}
+<h1>Liste des salles de projection</h1>
+
+<section class="rooms">
+    {% set i = 0 %}
+    {% for room in rooms %}
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ room.name }}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">Capacité : {{ room.capacity }}</h6>
+                <a href="{{ path('projection_room_edit', {'id': room.id}) }}" class="card-link" data-ytta-id="-">Editer</a>
+                <a class="card-link text-danger" data-ytta-id="-" data-toggle="modal" data-target="#delete{{ i }}">Supprimer</a>
+
+            </div>
+        </div>
+
+        <div class="modal" id="delete{{ i }}" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Supprimer</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Voulez-vous vraiment supprimer {{ room.name }} ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ path('projection_room_delete', {'id': room.id}) }}" class="btn btn-primary">Confirmer</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% set i = i + 1 %}
+
+    {% endfor %}
+
+</section>
+
+
+
+<a href="{{ path('projection_room_create') }}"><button type="button" class="btn btn-primary">Ajouter une salle</button></a>
+{% endblock %}

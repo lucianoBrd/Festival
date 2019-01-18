@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories de films{% endblock %}
+
+{% block body %}
+<h1>Liste des catégories de films</h1>
+
+<section class="categories">
+    {% set i = 0 %}
+    {% for category in categories %}
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">{{ category.name }}</h4>
+            <a href="{{ path('category_edit', {'id': category.id}) }}" class="card-link" data-ytta-id="-">Editer</a>
+            <a class="card-link text-danger" data-ytta-id="-" data-toggle="modal" data-target="#delete{{ i }}">Supprimer</a>
+
+        </div>
+    </div>
+
+    <div class="modal" id="delete{{ i }}" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Supprimer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Voulez-vous vraiment supprimer {{ category.name }} ?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ path('category_delete', {'id': category.id}) }}" class="btn btn-primary">Confirmer</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% set i = i + 1 %}
+
+    {% endfor %}
+
+</section>
+
+
+
+<a href="{{ path('category_create') }}"><button type="button" class="btn btn-primary">Ajouter une catégorie</button></a>
+{% endblock %}

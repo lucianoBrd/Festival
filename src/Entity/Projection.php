@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectionRepository")
@@ -19,17 +20,13 @@ class Projection
     private $id;
 
     /**
-     * @ORM\Column(type="dateinterval", nullable=true)
-     */
-    private $scheduledTime;
-
-    /**
      * @ORM\Column(type="date", nullable=true)
      */
     private $date;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Movie", mappedBy="idProjection")
+     * @Assert\NotNull(message="Sélectionner un film.")
      */
     private $idMovie;
 
@@ -46,18 +43,6 @@ class Projection
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getScheduledTime(): ?\DateInterval
-    {
-        return $this->scheduledTime;
-    }
-
-    public function setScheduledTime(?\DateInterval $scheduledTime): self
-    {
-        $this->scheduledTime = $scheduledTime;
-
-        return $this;
     }
 
     public function getDate(): ?\DateTimeInterface

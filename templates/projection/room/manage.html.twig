@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}{{ room.name }}{% endblock %}
+
+{% block body %}
+    <h1>
+        {% if editMode %}
+        Modification d'une salle
+        {% else %}
+        Ajout d'une salle
+        {% endif %}
+    </h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.name, {'label': 'Nom de la salle', 'attr': {'placeholder': 'Nom de la salle'}}) }}
+        {{ form_row(form.capacity, {'label': 'Capacité', 'attr': {'placeholder': 'Capacité'}}) }}
+        <a class="badge badge-pill badge-primary" href="{{ path('category') }}">Gestion des catégories</a>
+        {{ form_row(form.idCategory, {'label': 'Catégorie de films'}) }}
+
+        <button type="submit" class="btn btn-outline-primary">
+            {% if editMode %}
+            Modifier la salle
+            {% else %}
+            Ajouter la salle
+            {% endif %}
+        </button>
+
+    {{ form_end(form) }}
+
+{% endblock body %}
