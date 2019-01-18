@@ -11,14 +11,14 @@
         <thead>
           <tr>
             <th scope="col">Type</th>
-            <th scope="col"><a href="" class="btn btn-primary">Nouveau service</a></th>
+            <th scope="col"><a href="{{ path('service_new') }}" class="btn btn-primary">Nouveau service</a></th>
           </tr>
         </thead>
         <tbody>
           {% for service in services %}
             <tr>
                 <td>{{ service.type }}</td>
-                <td><a href="{{ path('user_edit', {'id': service.id}) }}" class="btn btn-outline-primary">Modifier</a></td>
+                <td><a href="{{ path('service_edit', {'id': service.id}) }}" class="btn btn-outline-primary">Modifier</a></td>
             </tr>
           {% endfor %}
         </tbody>
