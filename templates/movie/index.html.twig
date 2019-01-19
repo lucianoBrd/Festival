@@ -1,29 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des films en compétition{% endblock %}
-
 {% block body %}
-<h1>Liste des films en compétition</h1>
+<h1>Liste des films</h1>
 
 <section class="movies">
-
+    {% set i = 0 %}
     {% for movie in movies %}
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">{{ movie.title }}</h4>
                 <h6 class="card-subtitle mb-2 text-muted">durée : {{ movie.length }} minutes</h6>
-                <p class="card-text">{% if movie.competing %}
-                        Ce film est en compétition <br>
-                        {% else %}
-                        Ce film n'est pas en compétition <br>
-                        {% endif %}
-                    </p>
+                <p class="card-text">
+                    {% if movie.competing %}
+                        Ce film est en compétition 
+                    {% else %}
+                        Ce film n'est pas en compétition 
+                    {% endif %}
+                </p>
                 <a href="{{ path('movie_edit', {'id': movie.id}) }}" class="card-link" data-ytta-id="-">Modifier</a>
-                <a href="{{ path('movie_delete', {'id' : movie.id}) }}" class="card-link" data-ytta-id="-">Supprimer</a>
+                <a href="#" class="card-link text-danger" data-ytta-id="-" data-toggle="modal" data-target="#delete{{ i }}">Supprimer</a>
             </div>
         </div>
+
+        <div class="modal" id="delete{{ i }}" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Supprimer</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer {{ movie.title }} ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ path('movie_delete', {'id': movie.id}) }}" class="btn btn-primary">Confirmer</a>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        {% set i = i + 1 %}
     {% endfor %}
+    <div class="pagination">
+        {{ knp_pagination_render(movies) }}
+    </div>
 
 </section>
-<a href="{{ path('movie_create') }}"><button type="button" class="btn btn-primary">Ajouter un film</button></a>
 {% endblock %}

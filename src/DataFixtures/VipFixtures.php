@@ -10,8 +10,8 @@ class VipFixtures extends Fixture
 {
    public function load(ObjectManager $manager)
    {
-    $faker = \Faker\Factory::create('fr_FR');
-    $profession = array();
+        $faker = \Faker\Factory::create('fr_FR');
+        $profession = array();
         $profession[0] = "Réalisateur";
         $profession[1] = "Acteur";
         $profession[2] = "Scénariste";
@@ -21,19 +21,20 @@ class VipFixtures extends Fixture
         $profession[6] = "Média";
         $profession[7] = "Compagnon";
         $profession[8] = "Membre d'équipe";
-    $j = 0;
-    for($i=0; $i <= 1000 ; $i++){
-       $vip = new Vip();
-       if($j == 8){
-           $j = 0;
-       }
-       $vip->setName($faker->name())
-           ->setProfession($profession[$j])
-           ->setJury($faker->boolean)
-           ->setInvited($faker->boolean);
-       $manager->persist($vip);
-       $j++;
-    }
+
+        $j = 0;
+        for($i=0; $i <= 500 ; $i++){
+            $vip = new Vip();
+            if($j == 8){
+                $j = 0;
+            }
+            $vip->setName($faker->name())
+                ->setProfession($profession[$j])
+                ->setJury($faker->boolean)
+                ->setInvited($faker->boolean);
+            $manager->persist($vip);
+            $j++;
+        }
        $manager->flush();
    }
 }

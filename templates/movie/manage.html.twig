@@ -4,25 +4,27 @@
 {% block body %}
     <h1>
         {% if editMode %}
-        Modification d'un film
+            Modification d'un film
         {% else %}
-        Ajout d'un film
+            Ajout d'un film
         {% endif %}
     </h1>
 
     {{ form_start(form) }}
     {{ form_row(form.title, {'label': 'Nom du film', 'attr': {'placeholder': 'Nom du film'}}) }}
-    {{ form_row(form.length, {'label': 'Durée du film', 'attr': {'placeholder': 'Durée'}}) }}
+    {{ form_row(form.length, {'label': 'Durée du film', 'attr': {'placeholder': 'Durée en minutes'}}) }}
     {{ form_row(form.competing, {'label': 'Le film est-il en compétition ?'}) }}
+    <a class="badge badge-pill badge-primary" href="{{ path('vip') }}">Gestion des vip</a>
     {{ form_row(form.idDirector, {'label': 'Nom du réalisateur'})}}
+    <a class="badge badge-pill badge-primary" href="{{ path('category') }}">Gestion des catégories</a>
     {{ form_row(form.idCategory, {'label': 'Catégorie du film'}) }}
     
 
     <button type="submit" class="btn btn-outline-primary">
         {% if editMode %}
-        Modifier le film
+            Modifier
         {% else %}
-        Ajouter le film
+            Ajouter
         {% endif %}
     </button>
 
