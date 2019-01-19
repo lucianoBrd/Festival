@@ -21,13 +21,18 @@ class VipFixtures extends Fixture
         $profession[6] = "Média";
         $profession[7] = "Compagnon";
         $profession[8] = "Membre d'équipe";
-    for($i=0; $i <= 8 ; $i++){
+    $j = 0;
+    for($i=0; $i <= 1000 ; $i++){
        $vip = new Vip();
+       if($j == 8){
+           $j = 0;
+       }
        $vip->setName($faker->name())
-           ->setProfession($profession[$i])
+           ->setProfession($profession[$j])
            ->setJury($faker->boolean)
            ->setInvited($faker->boolean);
        $manager->persist($vip);
+       $j++;
     }
        $manager->flush();
    }

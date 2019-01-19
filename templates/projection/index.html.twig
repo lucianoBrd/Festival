@@ -3,14 +3,17 @@
 {% block title %}Projections{% endblock %}
 
 {% block body %}
-<h1>Liste des projections</h1>
+<h1>Liste des projections <a href="{{ path('projection_planning') }}" class="btn btn-outline-primary">Générer un planning</a></h1>
 
 <section class="projections">
     {% set i = 0 %}
     {% for projection in projections %}
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">{{ projection.name }}</h4>
+            <h4 class="card-title">
+                
+            </h4>
+            <h6 class="card-subtitle mb-2 text-muted">{{ projection.date | date('d/m/y à H:i') }}</h6>
             <a href="{{ path('projection_edit', {'id': projection.id}) }}" class="card-link" data-ytta-id="-">Editer</a>
             <a class="card-link text-danger" data-ytta-id="-" data-toggle="modal" data-target="#delete{{ i }}">Supprimer</a>
 
@@ -27,7 +30,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Voulez-vous vraiment supprimer {{ projection.name }} ?</p>
+                    <p>Voulez-vous vraiment supprimer {{ projection.date | date('d/m/y à H:i') }} ?</p>
                 </div>
                 <div class="modal-footer">
                     <a href="{{ path('projection_delete', {'id': projection.id}) }}" class="btn btn-primary">Confirmer</a>

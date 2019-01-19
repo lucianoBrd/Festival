@@ -25,6 +25,21 @@ class ProjectionController extends AbstractController
     }
 
     /**
+     * @Route("/projection/planning", name="projection_planning")
+     */
+    public function planning(ProjectionRepository $repo, ObjectManager $manager)
+    {
+        $projections = $repo->findAll();
+        foreach($projections as $projection){
+            $manager->remove($projection);
+        }
+        //lun. 13 mai 2019 – sam. 28 mai 2019
+        
+        $manager->flush();
+        return $this->redirectToRoute('projection');
+    }
+
+    /**
      * @Route("/projection/new", name="projection_create")
      * @Route("/projection/{id}/edit", name="projection_edit")
      */
@@ -32,7 +47,7 @@ class ProjectionController extends AbstractController
     {
         if (!$projection) {
             $projection = new Projection();
-        }
+        } 
 
         $editMode = $projection->getId() != null;
 

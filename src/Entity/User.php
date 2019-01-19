@@ -16,10 +16,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class User implements UserInterface
 {
 
-    const ROLE = [
-        0 => 'admin',
-        1 => 'manager', // gérant d'un hébergement
-        2 => 'staff'
+    private $constRole = [
+        0 => 'ROLE_ADMIN',
+        1 => 'ROLE_MANAGER', // gérant d'un hébergement
+        2 => 'ROLE_STAFF'
     ];
 
     /**
@@ -125,6 +125,11 @@ class User implements UserInterface
         return $this->role;
     }
 
+    public function getConstRole()
+    {
+        return $this->constRole;
+    }
+
     public function setRole(string $role): self
     {
         $this->role = $role;
@@ -153,6 +158,7 @@ class User implements UserInterface
     public function getSalt() {} 
     
     public function getRoles() {
-        return ['ROLE_USER'];
+        $roles[] = $this->getRole();
+        return $roles;
     }
 }

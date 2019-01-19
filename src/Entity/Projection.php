@@ -6,9 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectionRepository")
+ * @UniqueEntity(
+ *  fields={"date", "idProjectionRoom"},
+ *  message="Date deja prise")
  */
 class Projection
 {
@@ -20,13 +24,12 @@ class Projection
     private $id;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $date;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Movie", mappedBy="idProjection")
-     * @Assert\NotNull(message="Sélectionner un film.")
      */
     private $idMovie;
 
@@ -35,9 +38,15 @@ class Projection
      */
     private $idProjectionRoom;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Vip", inversedBy="projections")
+     */
+    private $idVip;
+
     public function __construct()
     {
         $this->idMovie = new ArrayCollection();
+        $this->idVip = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,6 +105,32 @@ class Projection
     public function setIdProjectionRoom(?ProjectionRoom $idProjectionRoom): self
     {
         $this->idProjectionRoom = $idProjectionRoom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vip[]
+     */
+    public function getIdVip(): Collection
+    {
+        return $this->idVip;
+    }
+
+    public function addIdVip(Vip $idVip): self
+    {
+        if (!$this->idVip->contains($idVip)) {
+            $this->idVip[] = $idVip;
+        }
+
+        return $this;
+    }
+
+    public function removeIdVip(Vip $idVip): self
+    {
+        if ($this->idVip->contains($idVip)) {
+            $this->idVip->removeElement($idVip);
+        }
 
         return $this;
     }

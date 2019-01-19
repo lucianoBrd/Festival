@@ -43,9 +43,15 @@ class Vip
      */
     private $idMovie;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Projection", mappedBy="idVip")
+     */
+    private $projections;
+
     public function __construct()
     {
         $this->idMovie = new ArrayCollection();
+        $this->projections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,6 +130,34 @@ class Vip
         if ($this->idMovie->contains($idMovie)) {
             $this->idMovie->removeElement($idMovie);
             $idMovie->removeIdDirector($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Projection[]
+     */
+    public function getProjections(): Collection
+    {
+        return $this->projections;
+    }
+
+    public function addProjection(Projection $projection): self
+    {
+        if (!$this->projections->contains($projection)) {
+            $this->projections[] = $projection;
+            $projection->addIdVip($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjection(Projection $projection): self
+    {
+        if ($this->projections->contains($projection)) {
+            $this->projections->removeElement($projection);
+            $projection->removeIdVip($this);
         }
 
         return $this;

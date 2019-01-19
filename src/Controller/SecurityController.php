@@ -23,7 +23,7 @@ class SecurityController extends AbstractController
      * @Route("/user/{id}/edit", name="user_edit")
      */
     public function registration(User $user = null, Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
-        
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if(!$user){
             $user = new User();
         }
@@ -62,6 +62,7 @@ class SecurityController extends AbstractController
      * @Route("/user/{id}/delete", name="user_delete")
      */
     public function delete(User $user = null, ObjectManager $manager){
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $manager->remove($user);
         $manager->flush();
         $this->addFlash('success', 'Utilisateur supprimé');
@@ -72,7 +73,7 @@ class SecurityController extends AbstractController
      * @Route("/user", name="user_all")
      */
     public function allUser(UserRepository $repo, PaginatorInterface $paginator, Request $request){
-        
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $users = $paginator->paginate(
             $repo->findQuery(), /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,

@@ -19,6 +19,7 @@ class MovieController extends AbstractController
      */
     public function index(MovieRepository $repo)
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
         $movies = $repo->findAll();
         return $this->render('movie/index.html.twig', [
             'controller_name' => 'MovieController',
@@ -32,6 +33,7 @@ class MovieController extends AbstractController
      */
     public function managemovies(Request $request, ObjectManager $manager, movie $movie = null)
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
         if (!$movie)
         {
             $movie = new movie();
@@ -60,6 +62,7 @@ class MovieController extends AbstractController
      */
     public function deletemovie(movie $movie, ObjectManager $manager)
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
         $manager->remove($movie);
         $manager->flush();
 

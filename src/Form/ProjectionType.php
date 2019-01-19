@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Vip;
 use App\Entity\Movie;
 use App\Entity\Projection;
 use App\Entity\ProjectionRoom;
@@ -21,13 +22,19 @@ class ProjectionType extends AbstractType
             ])
             ->add('idMovie', EntityType::class, [
                 'class' => Movie::class,
-                'choice_label' => 'name'
+                'choice_label' => 'title',
+                'multiple' => true
             ])
             ->add('idProjectionRoom', EntityType::class, [
                 'class' => ProjectionRoom::class,
                 'choice_label' => 'name'
             ])
-        ;
+            ->add('idVip', EntityType::class, [
+                'class' => Vip::class,
+                'choice_label' => 'name',
+                'multiple' => true
+            ]);
+        
     }
 
     public function configureOptions(OptionsResolver $resolver)
