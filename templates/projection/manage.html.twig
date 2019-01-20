@@ -1,33 +1,32 @@
 {% extends "base.html.twig" %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}Modification d'une projection{% endblock %}
-
 {% block body %}
-<h1>
-    {% if editMode %}
-    Modification d'une projection
-    {% else %}
-    Ajout d'une projection
-    {% endif %}
-</h1>
+    <h1>
+        {% if editMode %}
+            Modification d'une projection
+        {% else %}
+            Ajout d'une projection
+        {% endif %}
+    </h1>
 
-{{ form_start(form) }}
-{{ form_row(form.date, {'label': 'Date de diffusion', 'attr': {'placeholder': 'Date de diffusion'}}) }}
-<a class="badge badge-pill badge-primary" href="{{ path('movie') }}">Gestion des films</a>
-{{ form_row(form.idMovie, {'label': 'Film'}) }}
-<a class="badge badge-pill badge-primary" href="{{ path('projection_room') }}">Gestion des salles de projection</a>
-{{ form_row(form.idProjectionRoom, {'label': 'Salle'}) }}
-{{ form_row(form.idVip, {'label': 'Spectateurs'}) }}
+    {{ form_start(form) }}
+    {{ form_row(form.date, {'label': 'Date de diffusion', 'attr': {'placeholder': 'Date de diffusion'}}) }}
+    <a class="badge badge-pill badge-primary" href="{{ path('movie') }}">Gestion des films</a>
+    {{ form_row(form.idMovie, {'label': 'Film'}) }}
+    <a class="badge badge-pill badge-primary" href="{{ path('projection_room') }}">Gestion des salles de projection</a>
+    {{ form_row(form.idProjectionRoom, {'label': 'Salle'}) }}
+    <a class="badge badge-pill badge-primary" href="{{ path('vip') }}">Gestion des VIPs</a>
+    {{ form_row(form.idVip, {'label': 'Spectateurs'}) }}
 
-<button type="submit" class="btn btn-outline-primary">
-    {% if editMode %}
-    Modifier la projection
-    {% else %}
-    Ajouter la projection
-    {% endif %}
-</button>
+    <button type="submit" class="btn btn-outline-primary">
+        {% if editMode %}
+            Modifier
+        {% else %}
+            Ajouter
+        {% endif %}
+    </button>
 
-{{ form_end(form) }}
+    {{ form_end(form) }}
 
 {% endblock body %}

@@ -4,22 +4,27 @@ namespace App\Controller;
 
 use App\Entity\Projection;
 use App\Form\ProjectionType;
+use App\Repository\ProjectionRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Repository\ProjectionRepository;
 
 class ProjectionController extends AbstractController
 {
     /**
      * @Route("/projection", name="projection")
      */
-    public function index(ProjectionRepository $repo)
+    public function index(Request $request, PaginatorInterface $paginator, ProjectionRepository $repo)
     {
-        $projections = $repo->findAll();
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
+        $projections = $paginator->paginate(
+            $repo->findQuery(), /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
         return $this->render('projection/index.html.twig', [
-            'controller_name' => 'ProjectionController',
             'projections' => $projections
         ]);
     }
@@ -29,6 +34,7 @@ class ProjectionController extends AbstractController
      */
     public function planning(ProjectionRepository $repo, ObjectManager $manager)
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
         $projections = $repo->findAll();
         foreach($projections as $projection){
             $manager->remove($projection);
@@ -45,6 +51,7 @@ class ProjectionController extends AbstractController
      */
     public function manage(Request $request, ObjectManager $manager, Projection $projection = null)
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
         if (!$projection) {
             $projection = new Projection();
         } 
@@ -60,9 +67,9 @@ class ProjectionController extends AbstractController
             $manager->flush();
 
             if (!$editMode) {
-                $this->addFlash('success', 'Projection créée.');
+                $this->addFlash('success', 'Projection créée');
             } else {
-                $this->addFlash('success', 'Projection modifiée.');
+                $this->addFlash('success', 'Projection modifiée');
             }
 
             return $this->redirectToRoute('projection');
@@ -80,10 +87,10 @@ class ProjectionController extends AbstractController
      */
     public function delete(Projection $projection, ObjectManager $manager)
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
         $manager->remove($projection);
         $manager->flush();
-
-        $this->addFlash('success', 'Projection supprimée.');
+        $this->addFlash('success', 'Projection supprimée');
         return $this->redirectToRoute('projection');
     }
 

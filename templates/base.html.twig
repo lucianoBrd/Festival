@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css"/>
         <link rel="stylesheet" href="/assets/css/default.css"/>
         <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -32,33 +33,45 @@
                 </li>
                 {% endif %}
                 {% if is_granted(['ROLE_ADMIN', 'ROLE_STAFF']) %}
-                <li class="nav-item dropdown {{ currentPath == path('movie') or currentPath == path('movie_create')? 'active':''}}">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Film</a>
-                  <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                    <a class="dropdown-item" href="{{ path('movie') }}">Liste des films</a>
-                    <a class="dropdown-item" href="{{ path('movie_create') }}">Nouveau film</a>
-                  </div>
-                </li>
-                <li class="nav-item dropdown {{ currentPath == path('vip') or currentPath == path('vip_create')? 'active':''}}">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">VIP</a>
-                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                      <a class="dropdown-item" href="{{ path('vip') }}">Liste des VIPs</a>
-                      <a class="dropdown-item" href="{{ path('vip_create') }}">Nouveau VIP</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown {{ currentPath == path('category') or currentPath == path('category_create')? 'active':''}}">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catégorie de films</a>
-                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                      <a class="dropdown-item" href="{{ path('category') }}">Liste des catégories</a>
-                      <a class="dropdown-item" href="{{ path('category_create') }}">Nouvelle catégorie</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown {{ currentPath == path('projection_room') or currentPath == path('projection_room_create')? 'active':''}}">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Salle de projection</a>
-                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                      <a class="dropdown-item" href="{{ path('projection_room') }}">Liste des salles</a>
-                      <a class="dropdown-item" href="{{ path('projection_room_create') }}">Nouvelle salle</a>
-                    </div>
+                <li class="nav-item">
+                  <p class="nav-link">Staff</p>
+                  <ul class="navbar-nav mr-auto">
+                      <li class="nav-item dropdown {{ currentPath == path('movie') or currentPath == path('movie_create')? 'active':''}}">
+                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Film</a>
+                          <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                            <a class="dropdown-item" href="{{ path('movie') }}">Liste des films</a>
+                            <a class="dropdown-item" href="{{ path('movie_create') }}">Nouveau film</a>
+                          </div>
+                        </li>
+                        <li class="nav-item dropdown {{ currentPath == path('vip') or currentPath == path('vip_create')? 'active':''}}">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">VIP</a>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                              <a class="dropdown-item" href="{{ path('vip') }}">Liste des VIPs</a>
+                              <a class="dropdown-item" href="{{ path('vip_create') }}">Nouveau VIP</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown {{ currentPath == path('category') or currentPath == path('category_create')? 'active':''}}">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catégorie de films</a>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                              <a class="dropdown-item" href="{{ path('category') }}">Liste des catégories</a>
+                              <a class="dropdown-item" href="{{ path('category_create') }}">Nouvelle catégorie</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown {{ currentPath == path('projection_room') or currentPath == path('projection_room_create')? 'active':''}}">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Salle de projection</a>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                              <a class="dropdown-item" href="{{ path('projection_room') }}">Liste des salles</a>
+                              <a class="dropdown-item" href="{{ path('projection_room_create') }}">Nouvelle salle</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown {{ currentPath == path('projection') or currentPath == path('projection_create')? 'active':''}}">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Planning de projection</a>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                              <a class="dropdown-item" href="{{ path('projection') }}">Liste des projections</a>
+                              <a class="dropdown-item" href="{{ path('projection_create') }}">Nouvelle projection</a>
+                            </div>
+                        </li>
+                  </ul>
                 </li>
                 {% endif %}
                 <li class="nav-item dropdown {{ currentPath == path('hosting_all')? 'active':''}}">
@@ -83,7 +96,7 @@
                 {% for message in messages %}
                     <div class="alert alert-dismissible alert-{{ label }}">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        🎉 {{ message }} 
+                        <i class="fa fa-feather-alt"></i> {{ message }} 
                     </div>
                 {% endfor %}
             {% endfor %}
