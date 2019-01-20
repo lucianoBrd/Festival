@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,11 +16,15 @@ class CategoryController extends AbstractController
     /**
      * @Route("/category", name="category")
      */
-    public function index(CategoryRepository $repo)
+    public function index(Request $request, PaginatorInterface $paginator, CategoryRepository $repo)
     {
-        $categories = $repo->findAll();
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
+        $categories = $paginator->paginate(
+            $repo->findQuery(), /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
         return $this->render('category/index.html.twig', [
-            'controller_name' => 'CategoryController',
             'categories' => $categories
         ]);
     }
@@ -30,6 +35,7 @@ class CategoryController extends AbstractController
      */
     public function manage(Request $request, ObjectManager $manager, Category $category = null)
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
         if (!$category) {
             $category = new Category();
         }
@@ -45,9 +51,9 @@ class CategoryController extends AbstractController
             $manager->flush();
 
             if (!$editMode) {
-                $this->addFlash('success', 'Catégorie créée.');
+                $this->addFlash('success', 'Catégorie créée');
             } else {
-                $this->addFlash('success', 'Catégorie modifiée.');
+                $this->addFlash('success', 'Catégorie modifiée');
             }
 
             return $this->redirectToRoute('category');
@@ -65,10 +71,10 @@ class CategoryController extends AbstractController
      */
     public function delete(Category $category, ObjectManager $manager)
     {
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
         $manager->remove($category);
         $manager->flush();
-
-        $this->addFlash('success', 'Catégorie supprimée.');
+        $this->addFlash('success', 'Catégorie supprimée');
         return $this->redirectToRoute('category');
     }
 }
