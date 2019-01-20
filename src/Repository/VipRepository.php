@@ -19,6 +19,15 @@ class VipRepository extends ServiceEntityRepository
         parent::__construct($registry, Vip::class);
     }
 
+    /**
+      * @return Query
+      */
+      public function findQuery()
+      {
+          return $this->createQueryBuilder('v')
+              ->getQuery();
+      }
+
     // /**
     //  * @return Vip[] Returns an array of Vip objects
     //  */

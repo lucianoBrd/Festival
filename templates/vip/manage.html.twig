@@ -4,25 +4,26 @@
 {% block body %}
     <h1>
         {% if editMode %}
-        Modification d'un Vip
+            Modification d'un VIP
         {% else %}
-        Ajout d'un Vip
+            Ajout d'un VIP
         {% endif %}
     </h1>
 
     {{ form_start(form) }}
-    {{ form_row(form.name, {'label': 'Nom du Vip', 'attr': {'placeholder': 'Nom du Vip'}}) }}
-    {{ form_row(form.profession, {'label': 'Profession du Vip', 'attr': {'placeholder': 'Profession du Vip'}}) }}
-    {{ form_row(form.jury, {'label': 'Le Vip fait-il partie du jury?'}) }}
-    {{ form_row(form.invited, {'label': 'Le Vip est-il invité ?'})}}
+    {{ form_row(form.name, {'label': 'Nom du VIP', 'attr': {'placeholder': 'Nom du VIP'}}) }}
+    {{ form_row(form.profession, {'label': 'Profession du VIP', 'attr': {'placeholder': 'Profession du VIP'}}) }}
+    {{ form_row(form.jury, {'label': 'Le VIP fait-il partie du jury?'}) }}
+    {{ form_row(form.invited, {'label': 'Le VIP est-il invité ?'})}}
+    <a class="badge badge-pill badge-primary" href="{{ path('movie') }}">Gestion des films</a>
     {{ form_row(form.idMovie, {'label': 'Film :'}) }}
     
 
     <button type="submit" class="btn btn-outline-primary">
         {% if editMode %}
-        Modifier le Vip
+            Modifier
         {% else %}
-        Ajouter le Vip
+            Ajouter
         {% endif %}
     </button>
 

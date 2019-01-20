@@ -24,7 +24,7 @@ class MovieRepository extends ServiceEntityRepository
       */
       public function findQuery()
       {
-          return $this->createQueryBuilder('u')
+          return $this->createQueryBuilder('m')
               ->getQuery();
       }
 
