@@ -19,6 +19,15 @@ class ProjectionRoomRepository extends ServiceEntityRepository
         parent::__construct($registry, ProjectionRoom::class);
     }
 
+    /**
+      * @return Query
+      */
+      public function findQuery()
+      {
+          return $this->createQueryBuilder('m')
+              ->getQuery();
+      }
+
     // /**
     //  * @return ProjectionRoom[] Returns an array of ProjectionRoom objects
     //  */

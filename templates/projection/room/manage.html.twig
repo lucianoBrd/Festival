@@ -1,14 +1,12 @@
 {% extends "base.html.twig" %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}{{ room.name }}{% endblock %}
-
 {% block body %}
     <h1>
         {% if editMode %}
-        Modification d'une salle
+            Modification d'une salle
         {% else %}
-        Ajout d'une salle
+            Ajout d'une salle
         {% endif %}
     </h1>
 
@@ -20,9 +18,9 @@
 
         <button type="submit" class="btn btn-outline-primary">
             {% if editMode %}
-            Modifier la salle
+                Modifier
             {% else %}
-            Ajouter la salle
+                Ajouter
             {% endif %}
         </button>
 
