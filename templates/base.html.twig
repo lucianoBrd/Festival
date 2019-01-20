@@ -20,16 +20,26 @@
           
             <div class="collapse navbar-collapse" id="navbarColor01">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ currentPath == path('index')? 'active':''}}">
-                  <a class="nav-link" href="{{ path('index') }}">Accueil</a>
+                <li class="nav-item">
+                    <p class="nav-link">&nbsp;</p>
+                    <ul class="navbar-nav mr-auto">
+                      <li class="nav-item {{ currentPath == path('index')? 'active':''}}">
+                        <a class="nav-link" href="{{ path('index') }}">Accueil</a>
+                      </li>
+                    </ul>
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item dropdown {{ currentPath == path('user_all') or currentPath == path('security_registration')? 'active':''}}">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Utilisateur</a>
-                  <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                    <a class="dropdown-item" href="{{ path('user_all') }}">Liste des utilisateurs</a>
-                    <a class="dropdown-item" href="{{ path('security_registration') }}">Nouvel utilisateur</a>
-                  </div>
+                <li class="nav-item">
+                    <p class="nav-link">Admin</p>
+                    <ul class="navbar-nav mr-auto">
+                      <li class="nav-item dropdown {{ currentPath == path('user_all') or currentPath == path('security_registration')? 'active':''}}">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Utilisateur</a>
+                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                          <a class="dropdown-item" href="{{ path('user_all') }}">Liste des utilisateurs</a>
+                          <a class="dropdown-item" href="{{ path('security_registration') }}">Nouvel utilisateur</a>
+                        </div>
+                      </li>
+                    </ul>
                 </li>
                 {% endif %}
                 {% if is_granted(['ROLE_ADMIN', 'ROLE_STAFF']) %}
@@ -99,7 +109,16 @@
                         <i class="fa fa-feather-alt"></i> {{ message }} 
                     </div>
                 {% endfor %}
-            {% endfor %}
+              {% endfor %}
+              {% if currentPath != path('index') %}
+              <div class="bc">
+                  <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a href="{{ path('index') }}">Accueil</a></li>
+                      {% block breadcrumb %}{% endblock %}
+                  </ol>
+              </div>
+              {% endif %}
+              
             {% block body %}{% endblock %}
           </div>
         
