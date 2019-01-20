@@ -20,77 +20,54 @@
           
             <div class="collapse navbar-collapse" id="navbarColor01">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <p class="nav-link">&nbsp;</p>
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item {{ currentPath == path('index')? 'active':''}}">
-                        <a class="nav-link" href="{{ path('index') }}">Accueil</a>
-                      </li>
-                    </ul>
+                <li class="nav-item {{ currentPath == path('index')? 'active':''}}">
+                  <a class="nav-link" href="{{ path('index') }}">Accueil</a>
                 </li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="nav-item dropdown {{ currentPath == path('hosting_all')? 'active':''}}">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Hébergement</a>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{{ path('hosting_all') }}">Liste des hébergements</a>
+                      <a class="dropdown-item" href="{{ path('new_hosting') }}">Nouvel hébergement</a>
+                      <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+               {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item">
-                    <p class="nav-link">Admin</p>
-                    <ul class="navbar-nav mr-auto">
                       <li class="nav-item dropdown {{ currentPath == path('user_all') or currentPath == path('security_registration')? 'active':''}}">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Utilisateur</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                          <div class="dropdown-divider"></div>
                           <a class="dropdown-item" href="{{ path('user_all') }}">Liste des utilisateurs</a>
                           <a class="dropdown-item" href="{{ path('security_registration') }}">Nouvel utilisateur</a>
+                          <div class="dropdown-divider"></div>
                         </div>
                       </li>
-                    </ul>
-                </li>
                 {% endif %}
                 {% if is_granted(['ROLE_ADMIN', 'ROLE_STAFF']) %}
-                <li class="nav-item">
-                  <p class="nav-link">Staff</p>
-                  <ul class="navbar-nav mr-auto">
-                      <li class="nav-item dropdown {{ currentPath == path('movie') or currentPath == path('movie_create')? 'active':''}}">
-                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Film</a>
+                      <li class="nav-item dropdown {{ currentPath == path('movie') or currentPath == path('movie_create') or currentPath == path('vip') or currentPath == path('vip_create') or currentPath == path('category') or currentPath == path('category_create') or currentPath == path('projection_room') or currentPath == path('projection_room_create') or currentPath == path('projection') or currentPath == path('projection_create')? 'active':''}}">
+                          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Staff</a>
                           <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ path('movie') }}">Liste des films</a>
                             <a class="dropdown-item" href="{{ path('movie_create') }}">Nouveau film</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('vip') }}">Liste des VIPs</a>
+                            <a class="dropdown-item" href="{{ path('vip_create') }}">Nouveau VIP</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('category') }}">Liste des catégories</a>
+                            <a class="dropdown-item" href="{{ path('category_create') }}">Nouvelle catégorie</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('projection_room') }}">Liste des salles</a>
+                            <a class="dropdown-item" href="{{ path('projection_room_create') }}">Nouvelle salle</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('projection') }}">Liste des projections</a>
+                            <a class="dropdown-item" href="{{ path('projection_create') }}">Nouvelle projection</a>
+                            <div class="dropdown-divider"></div>
                           </div>
                         </li>
-                        <li class="nav-item dropdown {{ currentPath == path('vip') or currentPath == path('vip_create')? 'active':''}}">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">VIP</a>
-                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                              <a class="dropdown-item" href="{{ path('vip') }}">Liste des VIPs</a>
-                              <a class="dropdown-item" href="{{ path('vip_create') }}">Nouveau VIP</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown {{ currentPath == path('category') or currentPath == path('category_create')? 'active':''}}">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catégorie de films</a>
-                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                              <a class="dropdown-item" href="{{ path('category') }}">Liste des catégories</a>
-                              <a class="dropdown-item" href="{{ path('category_create') }}">Nouvelle catégorie</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown {{ currentPath == path('projection_room') or currentPath == path('projection_room_create')? 'active':''}}">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Salle de projection</a>
-                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                              <a class="dropdown-item" href="{{ path('projection_room') }}">Liste des salles</a>
-                              <a class="dropdown-item" href="{{ path('projection_room_create') }}">Nouvelle salle</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown {{ currentPath == path('projection') or currentPath == path('projection_create')? 'active':''}}">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Planning de projection</a>
-                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                              <a class="dropdown-item" href="{{ path('projection') }}">Liste des projections</a>
-                              <a class="dropdown-item" href="{{ path('projection_create') }}">Nouvelle projection</a>
-                            </div>
-                        </li>
-                  </ul>
-                </li>
                 {% endif %}
-                <li class="nav-item dropdown {{ currentPath == path('hosting_all')? 'active':''}}">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Hébergement</a>
-                  <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 37px, 0px);">
-                    <a class="dropdown-item" href="{{ path('hosting_all') }}">Liste des hébergements</a>
-                    <a class="dropdown-item" href="{{ path('new_hosting') }}">Nouvel hébergement</a>
-                  </div>
-                </li>
               </ul>
               <div class="form-inline my-2 my-lg-0">
                   {% if not app.user %}
