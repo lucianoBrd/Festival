@@ -18,6 +18,7 @@ class ServiceController extends AbstractController
      */
     public function allService(ServiceRepository $repo, PaginatorInterface $paginator, Request $request)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $services = $paginator->paginate(
             $repo->findQuery(), /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
@@ -34,7 +35,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/edit", name="service_edit")
      */
     public function service(Service $service = null, Request $request, ObjectManager $manager){
-        
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if(!$service){
             $service = new Service();
         }
@@ -70,6 +71,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{id}/delete", name="service_delete")
      */
     public function delete(Service $service = null, ObjectManager $manager){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $manager->remove($service);
         $manager->flush();
         $this->addFlash('success', 'Service supprimé');

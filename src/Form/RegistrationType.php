@@ -23,7 +23,7 @@ class RegistrationType extends AbstractType
                 'choices'  => [
                     'Admin' => 'ROLE_ADMIN',
                     'Gérant d\'un hébergement' => 'ROLE_MANAGER',
-                    'Staff' => 'ROLE_STAFF',
+                    'Staff du festival' => 'ROLE_STAFF',
                 ],
             ])
         ;

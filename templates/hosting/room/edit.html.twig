@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
-
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{{ path('hosting_all') }}">Hébergement</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('hosting_edit', {'id': hosting.id}) }}">Modification</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('hosting_room', {'id': hosting.id}) }}">Chambre</a></li>
+    <li class="breadcrumb-item active">Modification</li>
+{% endblock %}
 {% block body %}
   <h1>
     Modification de la chambre {{room.roomNumber}} de l'hébergement {{hosting.name}}

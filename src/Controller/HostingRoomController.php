@@ -19,6 +19,7 @@ class HostingRoomController extends AbstractController
      */
     public function index(Hosting $hosting, RoomRepository $repo, PaginatorInterface $paginator, Request $request, ObjectManager $manager)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $room = new Room();
         $room->setIdHosting($hosting);
 
@@ -55,6 +56,7 @@ class HostingRoomController extends AbstractController
      * @Route("/hosting/room/{id}/delete", name="hosting_room_delete")
      */
     public function delete(Room $room = null, ObjectManager $manager){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $hosting = $room->getIdHosting();
         $id = $hosting->getId();
         $hosting->updateNbPlace();
@@ -69,6 +71,7 @@ class HostingRoomController extends AbstractController
      * @Route("/hosting/room/{id}/edit", name="hosting_room_edit")
      */
     public function registration(Room $room = null, Request $request, ObjectManager $manager){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $hosting = $room->getIdHosting();
         $form = $this->createForm(RoomType::class, $room);
 

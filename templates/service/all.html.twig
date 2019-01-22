@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
-
-
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">Service</li>
+{% endblock %}
 {% block body %}
 
 <h1>
@@ -11,7 +12,7 @@
         <thead>
           <tr>
             <th scope="col">Type</th>
-            <th scope="col"><a href="{{ path('service_new') }}" class="btn btn-primary">Nouveau service</a></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>

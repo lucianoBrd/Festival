@@ -1,12 +1,21 @@
 {% extends "base.html.twig" %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
-
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{{ path('service_all') }}">Service</a></li>
+    <li class="breadcrumb-item active">
+        {% if editMode %}
+            Modification
+        {% else %}
+            Ajout
+        {% endif %}
+    </li>
+{% endblock %}
 {% block body %}
     <h1>
       {% if editMode %}
-        Modifier
+        Modification d'un service
       {% else %}
-        Ajouter un service
+        Ajout d'un service
       {% endif %}
     </h1>
 

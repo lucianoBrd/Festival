@@ -1,12 +1,21 @@
 {% extends "base.html.twig" %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
-
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{{ path('type_all') }}">Type</a></li>
+    <li class="breadcrumb-item active">
+        {% if editMode %}
+            Modification
+        {% else %}
+            Ajout
+        {% endif %}
+    </li>
+{% endblock %}
 {% block body %}
     <h1>
       {% if editMode %}
-        Modifier
+        Modification d'un type
       {% else %}
-        Ajouter un type
+        Ajout d'un type
       {% endif %}
     </h1>
 

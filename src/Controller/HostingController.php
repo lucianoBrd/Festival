@@ -19,6 +19,7 @@ class HostingController extends AbstractController
      */
     public function newHosting(Hosting $hosting = null, Request $request, ObjectManager $manager)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if(!$hosting){
             $hosting = new Hosting();
         }
@@ -48,7 +49,7 @@ class HostingController extends AbstractController
      * @Route("/hosting", name="hosting_all")
      */
     public function allHosting(HostingRepository $repo, PaginatorInterface $paginator, Request $request){
-        
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $hostings = $paginator->paginate(
             $repo->findQuery(), /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
@@ -64,6 +65,7 @@ class HostingController extends AbstractController
      * @Route("/hosting/{id}/delete", name="hosting_delete")
      */
     public function delete(Hosting $hosting = null, ObjectManager $manager){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $manager->remove($hosting);
         $manager->flush();
         $this->addFlash('success', 'Hébergement supprimé');
