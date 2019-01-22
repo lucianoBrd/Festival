@@ -58,7 +58,7 @@ class MovieFixtures extends Fixture
             $movie = new Movie();
             $vip = new Vip();
             $vip->setName($faker->name())
-                ->setProfession("Réalisateur")
+                ->setProfession("realisateur")
                 ->setJury($faker->boolean)
                 ->setInvited($faker->boolean);
             $manager->persist($vip);

@@ -12,20 +12,22 @@ class VipFixtures extends Fixture
    {
         $faker = \Faker\Factory::create('fr_FR');
         $profession = array();
-        $profession[0] = "Réalisateur";
-        $profession[1] = "Acteur";
-        $profession[2] = "Scénariste";
-        $profession[3] = "Influenceur";
-        $profession[4] = "Musicien";
-        $profession[5] = "Photographe";
-        $profession[6] = "Média";
-        $profession[7] = "Compagnon";
-        $profession[8] = "Membre d'équipe";
+        $profession[0] = "realisateur";
+        $profession[1] = "acteur";
+        $profession[2] = "journaliste";
+        $profession[3] = "scenariste";
+        $profession[4] = "influenceur";
+        $profession[5] = "musicien";
+        $profession[6] = "photographe";
+        $profession[7] = "media";
+        $profession[8] = "compagnon";
+        $profession[9] = "membre_equipe";
+        $profession[10] = "autre";
 
         $j = 0;
         for($i=0; $i <= 500 ; $i++){
             $vip = new Vip();
-            if($j == 8){
+            if($j == 11){
                 $j = 0;
             }
             $vip->setName($faker->name())

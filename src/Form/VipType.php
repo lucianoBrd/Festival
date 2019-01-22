@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class VipType extends AbstractType
 {
@@ -15,7 +16,21 @@ class VipType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('profession')
+            ->add('profession', ChoiceType::class, [
+                'choices'  => [
+                    'Réalisateur' => 'realisateur',
+                    'Acteur' => 'acteur',
+                    'Journaliste' => 'journaliste',
+                    'Scénariste' => 'scenariste',
+                    'Influenceur' => 'influenceur',
+                    'Musicien' => 'musicien',
+                    'Photographe' => 'photographe',
+                    'Média' => 'media',
+                    'Compagnon' => 'compagnon',
+                    'Membre d\'équipe' => 'membre_equipe',
+                    'Autre' => 'autre',
+                ],
+            ])
             ->add('jury')
             ->add('invited')
             ->add('idMovie', EntityType::class, [
