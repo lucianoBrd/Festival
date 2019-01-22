@@ -37,6 +37,16 @@ class UserFixtures extends Fixture
             $manager->persist($user);
             $j++;
         }
+        // Compte admin
+        $user = new User();
+        $user->setPassword('abc');
+        $hash = $this->encoder->encodePassword($user, $user->getPassword());
+        $user->setUsername("Luciano")
+            ->setPassword($hash)
+            ->setEmail("lucien.burdet@gmail.com")
+            ->setName("Luciano Brd")
+            ->setRole($user->getConstRole()[0]);
+        $manager->persist($user);
 
         $manager->flush();
     }
