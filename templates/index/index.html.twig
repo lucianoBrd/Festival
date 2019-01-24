@@ -1,4 +1,70 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div class="row">
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div class="list-group col">
+                    <a class="list-group-item list-group-item-action active">Hébergement
+                    </a>
+                    <a href="{{ path('hosting_all') }}" class="list-group-item list-group-item-action">Liste des hébergements
+                    </a>
+                    {% if is_granted(['ROLE_ADMIN', 'ROLE_MANAGER']) %}
+                    <a href="{{ path('new_hosting') }}" class="list-group-item list-group-item-action">Nouvel hébergement
+                    </a>
+                    <a class="list-group-item list-group-item-action active"></a>
+                    <a href="{{ path('type_all') }}" class="list-group-item list-group-item-action">Liste des types
+                    </a>
+                    <a href="{{ path('type_new') }}" class="list-group-item list-group-item-action">Nouveau type
+                    </a>
+                    <a class="list-group-item list-group-item-action active"></a>
+                    <a href="{{ path('service_all') }}" class="list-group-item list-group-item-action">Liste des services
+                    </a>
+                    <a href="{{ path('service_new') }}" class="list-group-item list-group-item-action">Nouveau service
+                    </a>
+                </div>
+                {% endif %}
+{% endif %}
+{% if is_granted('ROLE_ADMIN') %}
+<div class="list-group col">
+        <a class="list-group-item list-group-item-action active">Admin
+        </a>
+        <a href="{{ path('user_all') }}" class="list-group-item list-group-item-action">Liste des utilisateurs
+        </a>
+        <a href="{{ path('security_registration') }}" class="list-group-item list-group-item-action">Nouvel utilisateur
+        </a>
+</div>
+    {% endif %}
+
+    {% if is_granted(['ROLE_ADMIN', 'ROLE_STAFF']) %}
+    <div class="list-group col">
+            <a class="list-group-item list-group-item-action active">Staff
+            </a>
+            <a href="{{ path('movie') }}" class="list-group-item list-group-item-action">Liste des films
+            </a>
+            <a href="{{ path('movie_create') }}" class="list-group-item list-group-item-action">Nouveau film
+            </a>
+            <a class="list-group-item list-group-item-action active"></a>
+            <a href="{{ path('vip') }}" class="list-group-item list-group-item-action">Liste des VIPs
+            </a>
+            <a href="{{ path('vip_create') }}" class="list-group-item list-group-item-action">Nouveau VIP
+            </a>
+            <a class="list-group-item list-group-item-action active"></a>
+            <a href="{{ path('category') }}" class="list-group-item list-group-item-action">Liste des catégories
+            </a>
+            <a href="{{ path('category_create') }}" class="list-group-item list-group-item-action">Nouvelle catégorie
+            </a>
+            <a class="list-group-item list-group-item-action active"></a>
+            <a href="{{ path('service_all') }}" class="list-group-item list-group-item-action">Liste des salles
+            </a>
+            <a href="{{ path('service_new') }}" class="list-group-item list-group-item-action">Nouvelle salle
+            </a>
+            <a class="list-group-item list-group-item-action active"></a>
+            <a href="{{ path('projection_room') }}" class="list-group-item list-group-item-action">Liste des projections
+            </a>
+            <a href="{{ path('projection_create') }}" class="list-group-item list-group-item-action">Nouvelle projection
+            </a>
+        </div>
+    {% endif %}
+
+</div class="row">
 {% endblock %}
