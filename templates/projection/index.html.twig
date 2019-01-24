@@ -19,7 +19,7 @@
             <h6 class="card-subtitle mb-2 text-muted">{{ projection.idProjectionRoom.name }}</h6>
             <h6 class="card-subtitle mb-2 text-muted">{{ projection.date | date('d/m/y à H:i') }}</h6>
             <a href="{{ path('projection_edit', {'id': projection.id}) }}" class="card-link" data-ytta-id="-">Editer</a>
-            <a class="card-link text-danger" data-ytta-id="-" data-toggle="modal" data-target="#delete{{ i }}">Supprimer</a>
+            <a href="#" class="card-link text-danger" data-ytta-id="-" data-toggle="modal" data-target="#delete{{ i }}">Supprimer</a>
 
         </div>
     </div>

@@ -25,6 +25,7 @@ class ProjectionRepository extends ServiceEntityRepository
       public function findQuery()
       {
           return $this->createQueryBuilder('m')
+              ->orderBy('m.date', 'ASC')
               ->getQuery();
       }
 

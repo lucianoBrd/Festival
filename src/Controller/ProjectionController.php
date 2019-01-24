@@ -205,14 +205,33 @@ class ProjectionController extends AbstractController
         
         
         $manager->flush();
+        $this->addFlash('success', 'Planning créé');
         return $this->redirectToRoute('projection');
     }
 
     private function checkConstraint(Projection $projection, ProjectionRepository $repoProjection){
         $date = $projection->getDate();
         $check = $repoProjection->findBy(['date' => $date]);
-        if(!$check){
+        if($check){
             return false;
+        }
+        $projections = $repoProjection->findBy(['idProjectionRoom' => $projection->getIdProjectionRoom()->getId()]);
+        foreach($projections as $p){
+            $h = $p->getdate()->format('H');
+            $m = $p->getdate()->format('i');
+            $afterH =  $h + floor($p->getIdMovie()->getLength() / 60);
+            $afterM= $m + ($p->getIdMovie()->getLength() % 60);
+            if($afterM>=60){
+                $afterH += floor($afterM / 60);
+                $afterM = ($afterM % 60);
+            }
+            if($afterH >= 24){
+                $afterH = 8;
+                $afterM = 00;
+            }
+            if($date->format('H') > $h && $date->format('i') > $m && $date->format('H') < $afterH && $date->format('i') < $afterM){
+                return false;
+            } 
         }
         return true;
     }
@@ -221,7 +240,7 @@ class ProjectionController extends AbstractController
      * @Route("/projection/new", name="projection_create")
      * @Route("/projection/{id}/edit", name="projection_edit")
      */
-    public function manage(Request $request, ObjectManager $manager, Projection $projection = null)
+    public function manage(Request $request, ObjectManager $manager, Projection $projection = null, ProjectionRepository $repoProjection)
     {
         $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_STAFF']);
         if (!$projection) {
@@ -235,16 +254,25 @@ class ProjectionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($projection);
-            $manager->flush();
+            if($this->checkConstraint($projection, $repoProjection)){
+                $manager->persist($projection);
+                $manager->flush();
 
-            if (!$editMode) {
-                $this->addFlash('success', 'Projection créée');
+                if (!$editMode) {
+                    $this->addFlash('success', 'Projection créée');
+                } else {
+                    $this->addFlash('success', 'Projection modifiée');
+                }
+
+                return $this->redirectToRoute('projection');
             } else {
-                $this->addFlash('success', 'Projection modifiée');
+                $this->addFlash('danger', 'L\'heure est incorrecte');
+                if (!$editMode) {
+                    return $this->redirectToRoute('projection_create');
+                } else {
+                    return $this->redirectToRoute('projection_edit');
+                }
             }
-
-            return $this->redirectToRoute('projection');
         }
 
         return $this->render('projection/manage.html.twig', [
