@@ -19,6 +19,17 @@ class HostingRoomBookingRepository extends ServiceEntityRepository
         parent::__construct($registry, HostingRoomBooking::class);
     }
 
+    /**
+    * @return Query
+    */
+    public function findQuery($id)
+    {
+        return $this->createQueryBuilder('h')
+            ->andWhere('h.hostingRoom = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+    }
+
     // /**
     //  * @return HostingRoomBooking[] Returns an array of HostingRoomBooking objects
     //  */

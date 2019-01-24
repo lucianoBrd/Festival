@@ -18,7 +18,7 @@ class HostingRoomBookingType extends AbstractType
             ->add('vip', EntityType::class, [
                 'class' => Vip::class,
                 'multiple' => true,
-                'choice_label' => 'type'
+                'choice_label' => 'name'
             ])
             ->add('date')
         ;
