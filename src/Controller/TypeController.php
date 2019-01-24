@@ -18,7 +18,7 @@ class TypeController extends AbstractController
      */
     public function allType(TypeRepository $repo, PaginatorInterface $paginator, Request $request)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_MANAGER']);
         $types = $paginator->paginate(
             $repo->findQuery(), /* query NOT result */
             $request->query->getInt('page', 1)/*page number*/,
@@ -35,7 +35,7 @@ class TypeController extends AbstractController
      * @Route("/type/{id}/edit", name="type_edit")
      */
     public function service(Type $type = null, Request $request, ObjectManager $manager){
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_MANAGER']);
         if(!$type){
             $type = new Type();
         }
@@ -71,7 +71,7 @@ class TypeController extends AbstractController
      * @Route("/type/{id}/delete", name="type_delete")
      */
     public function delete(Type $type = null, ObjectManager $manager){
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_MANAGER']);
         $manager->remove($type);
         $manager->flush();
         $this->addFlash('success', 'Type supprimé');

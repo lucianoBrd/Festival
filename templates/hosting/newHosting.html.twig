@@ -20,6 +20,7 @@
   </h1>
 
   {{ form_start(form) }}
+  {% if is_granted(['ROLE_ADMIN', 'ROLE_MANAGER']) %}
   {{ form_row(form.name, {'label': 'Nom de l\'hébergement', 'attr': {'placeholder': 'Nom de l\'hébergement'}}) }}
   <a class="badge badge-pill badge-primary" href="{{ path('type_all') }}">Gestion des types</a>
   {{ form_row(form.idType, {'label': 'Type'}) }}
@@ -34,8 +35,16 @@
           Ajouter
       {% endif %}
   </button>
+  {% else %}
+  {{ form_row(form.name, {'label': 'Nom de l\'hébergement', 'attr': {'placeholder': 'Nom de l\'hébergement', 'readonly': ''}}) }}
+  {{ form_row(form.idType, {'label': 'Type', 'attr': {'readonly': ''}}) }}
+  {{ form_row(form.address, {'label': 'Adresse', 'attr': {'placeholder': 'Adresse', 'readonly': ''}}) }}
+  {{ form_row(form.nbPlace, {'label': 'Nombre de palces', 'attr': {'readonly': ''}}) }}
+  {{ form_row(form.idService, {'label': 'Service'}) }}
+  {% endif %}
   {% if editMode %}
         <a href="{{ path('hosting_room', {'id': hosting.id}) }}" class="btn btn-outline-secondary">Gestion des chambres</a>
+        {% if is_granted(['ROLE_ADMIN', 'ROLE_MANAGER']) %}
         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">Supprimer</button>
         <div class="modal" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -56,6 +65,7 @@
               </div>
             </div>
           </div>
+          {% endif %}
     {% endif %}
   {{ form_end(form) }}
 {% endblock %}
