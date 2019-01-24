@@ -10,7 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HostingRoomBookingRepository")
  * @UniqueEntity(
- *  fields={"date"},
+ *  fields={"date", "hostingRoom"},
+ *  errorPath="date",
  *  message="Date deja utilise")
  */
 class HostingRoomBooking
