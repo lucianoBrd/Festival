@@ -34,7 +34,7 @@ class VipFixtures extends Fixture
             ->setJury($faker->boolean)
             ->setInvited($faker->boolean);
          $manager->persist($vip);
-         $w++;
+         $j++;
       }
       $manager->flush();
    }
