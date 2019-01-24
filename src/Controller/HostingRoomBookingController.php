@@ -66,6 +66,17 @@ class HostingRoomBookingController extends AbstractController
     }
 
     /**
+     * @Route("/hosting/room/booking/{id}/email", name="hosting_room_booking_email")
+     */
+    public function email(HostingRoomBooking $booking = null){
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $room = $booking->getHostingRoom();
+        $id = $room->getId();
+        $this->addFlash('success', 'Les VIPs ont reçu un email');
+        return $this->redirectToRoute('hosting_room_booking', ['id' => $id]);
+    }
+
+    /**
      * @Route("/hosting/room/booking/{id}/edit", name="hosting_room_booking_edit")
      */
     public function registration(HostingRoomBooking $booking = null, Request $request, ObjectManager $manager){
