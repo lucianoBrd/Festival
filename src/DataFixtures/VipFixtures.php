@@ -24,7 +24,7 @@ class VipFixtures extends Fixture
       $profession[9] = "membre_equipe";
       $profession[10] = "autre";
       $j = 0;
-      for($i=0; $i <= 500 ; $i++){
+      for($i=0; $i <= 100 ; $i++){
          $vip = new Vip();
          if($j == 11){
             $j = 0;

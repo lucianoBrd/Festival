@@ -33,11 +33,6 @@ class VipType extends AbstractType
             ])
             ->add('jury')
             ->add('invited')
-            ->add('idMovie', EntityType::class, [
-                'class'=>Movie::class,
-                'choice_label'=>'title',
-                'multiple'=>true
-            ])
         ;
     }
 

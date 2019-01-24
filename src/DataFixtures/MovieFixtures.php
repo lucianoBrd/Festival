@@ -20,6 +20,7 @@ class MovieFixtures extends Fixture
         $name[0] = "Courts Métrages";
         $name[1] = "Longs Métrages";
         $name[2] = "Un Certain Regard";
+        $name[3] = "Hors Catégorie";
         
         $nameR[] = "Grand Théâtre Lumière";
         $capacity[] = 2400;
@@ -32,7 +33,7 @@ class MovieFixtures extends Fixture
         $nameR[] = "Salle Bazin";
         $capacity[] = 500;
 
-        for ($j=0; $j <= 2 ; $j++) { 
+        for ($j=0; $j <= 3 ; $j++) { 
             $category = new Category();
             $category->setName($name[$j]);
             $manager->persist($category);  
@@ -42,19 +43,20 @@ class MovieFixtures extends Fixture
         $j = 0;
         for ($i=0; $i <= 4 ; $i++) { 
             $room = new ProjectionRoom();
-            if($j == 3){
+            if($j == 4){
                 $j = 0;
             }
             $room->setName($nameR[$i])
                 ->setCapacity($capacity[$i])
                 ->addIdCategory($cate[$j]);
             $manager->persist($room);  
+            $j++;
         }
 
         
         $faker = \Faker\Factory::create('fr_FR');
         $j = 0;
-        for ($i=1; $i <= 20 ; $i++) { 
+        for ($i=1; $i <= 40 ; $i++) { 
             $movie = new Movie();
             $vip = new Vip();
             $vip->setName($faker->name())
@@ -62,7 +64,7 @@ class MovieFixtures extends Fixture
                 ->setJury($faker->boolean)
                 ->setInvited($faker->boolean);
             $manager->persist($vip);
-            if($j == 3){
+            if($j == 4){
                 $j = 0;
             }
             $movie->setTitle($faker->company())
