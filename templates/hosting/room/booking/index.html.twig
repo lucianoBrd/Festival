@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{{ path('hosting_all') }}">Hébergement</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('hosting_edit', {'id': hosting.id}) }}">Modification</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('hosting_room', {'id': hosting.id}) }}">Chambre</a></li>
+    <li class="breadcrumb-item active">Réservation</li>
+{% endblock %}
+{% block body %}
+  <h1>
+    Gestion des réservations de {{hosting.name}}
+    <a href="{{ path('hosting_room', {'id': hosting.id}) }}" class="btn btn-outline-secondary">Terminé</a>
+  </h1>
+  {{ form_start(form) }}
+  {{ form_row(form.vip, {'label': 'Vip'}) }}
+  {{ form_row(form.date, {'label': 'Date', 'attr': {'placeholder': 'Date'}}) }}
+  <input type="hidden" name="id" value="{room.id}">
+  <button type="submit" class="btn btn-outline-primary">Ajouter</button>
+  {{ form_end(form) }}
+  <section class="rooms">
+    {% for booking in bookings %}
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Date : {{ booking.date | date('d/m/y')}}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">Vip : {{  }}</h6>
+                <a href="{{ path('hosting_room_booking_edit', {'id': booking.id}) }}" class="card-link" data-ytta-id="-">Editer</a>
+            </div>
+        </div>
+ 
+    {% endfor %}
+    <div class="pagination">
+        {{ knp_pagination_render(bookings) }}
+    </div>
+  </section> 
+{% endblock %}

@@ -48,10 +48,16 @@ class Vip
      */
     private $projections;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\HostingRoomBooking", mappedBy="vip")
+     */
+    private $bookings;
+
     public function __construct()
     {
         $this->idMovie = new ArrayCollection();
         $this->projections = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -158,6 +164,34 @@ class Vip
         if ($this->projections->contains($projection)) {
             $this->projections->removeElement($projection);
             $projection->removeIdVip($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HostingRoomBooking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(HostingRoomBooking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->addVip($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(HostingRoomBooking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            $booking->removeVip($this);
         }
 
         return $this;

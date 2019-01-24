@@ -56,7 +56,7 @@ class HostingRoomController extends AbstractController
      * @Route("/hosting/room/{id}/delete", name="hosting_room_delete")
      */
     public function delete(Room $room = null, ObjectManager $manager){
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_MANAGER']);
         $hosting = $room->getIdHosting();
         $id = $hosting->getId();
         $hosting->updateNbPlace();
@@ -71,7 +71,7 @@ class HostingRoomController extends AbstractController
      * @Route("/hosting/room/{id}/edit", name="hosting_room_edit")
      */
     public function registration(Room $room = null, Request $request, ObjectManager $manager){
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted(['ROLE_ADMIN', 'ROLE_MANAGER']);
         $hosting = $room->getIdHosting();
         $form = $this->createForm(RoomType::class, $room);
 

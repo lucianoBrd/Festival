@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class Room
      * @ORM\JoinColumn(nullable=false)
      */
     private $idHosting;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\HostingRoomBooking", mappedBy="hostingRoom", orphanRemoval=true)
+     */
+    private $bookings;
+
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,37 @@ class Room
     public function setIdHosting(?Hosting $idHosting): self
     {
         $this->idHosting = $idHosting;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HostingRoomBooking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(HostingRoomBooking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setHostingRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(HostingRoomBooking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getHostingRoom() === $this) {
+                $booking->setHostingRoom(null);
+            }
+        }
 
         return $this;
     }

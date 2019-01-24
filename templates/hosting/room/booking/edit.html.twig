@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{{ path('hosting_all') }}">Hébergement</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('hosting_edit', {'id': hosting.id}) }}">Modification</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('hosting_room', {'id': hosting.id}) }}">Chambre</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('hosting_room_booking', {'id': room.id}) }}">Réservation</a></li>
+    <li class="breadcrumb-item active">Modification</li>
+{% endblock %}
+{% block body %}
+  <h1>
+    Modification de la réservation de la chambre {{room.roomNumber}} de l'hébergement {{hosting.name}}
+  </h1>
+
+  {{ form_start(form) }}
+  {{ form_row(form.vip, {'label': 'Vip'}) }}
+  {{ form_row(form.date, {'label': 'Date', 'attr': {'placeholder': 'Date'}}) }}
+  <button type="submit" class="btn btn-outline-primary">Modifier</button>
+  <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete">Supprimer</button>
+        <div class="modal" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Supprimer</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Voulez-vous vraiment supprimer la réservation de la chambre {{room.roomNumber}} de l'hébergement {{hosting.name}} ?</p>
+                </div>
+                <div class="modal-footer">
+                  <a href="{{ path('hosting_room_booking_delete', {'id': booking.id}) }}" class="btn btn-primary">Confirmer</a>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </div>
+              </div>
+            </div>
+        </div>
+  {{ form_end(form) }}
+
+
+{% endblock %}
