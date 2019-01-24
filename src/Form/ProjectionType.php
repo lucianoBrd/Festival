@@ -23,7 +23,6 @@ class ProjectionType extends AbstractType
             ->add('idMovie', EntityType::class, [
                 'class' => Movie::class,
                 'choice_label' => 'title',
-                'multiple' => true
             ])
             ->add('idProjectionRoom', EntityType::class, [
                 'class' => ProjectionRoom::class,

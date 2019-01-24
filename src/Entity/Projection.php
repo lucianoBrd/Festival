@@ -29,11 +29,6 @@ class Projection
     private $date;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Movie", mappedBy="idProjection")
-     */
-    private $idMovie;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ProjectionRoom", inversedBy="idProjection")
      */
     private $idProjectionRoom;
@@ -43,9 +38,14 @@ class Projection
      */
     private $idVip;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Movie", inversedBy="idProjection")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $idMovie;
+
     public function __construct()
     {
-        $this->idMovie = new ArrayCollection();
         $this->idVip = new ArrayCollection();
     }
 
@@ -62,37 +62,6 @@ class Projection
     public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Movie[]
-     */
-    public function getIdMovie(): Collection
-    {
-        return $this->idMovie;
-    }
-
-    public function addIdMovie(Movie $idMovie): self
-    {
-        if (!$this->idMovie->contains($idMovie)) {
-            $this->idMovie[] = $idMovie;
-            $idMovie->setIdProjection($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdMovie(Movie $idMovie): self
-    {
-        if ($this->idMovie->contains($idMovie)) {
-            $this->idMovie->removeElement($idMovie);
-            // set the owning side to null (unless already changed)
-            if ($idMovie->getIdProjection() === $this) {
-                $idMovie->setIdProjection(null);
-            }
-        }
 
         return $this;
     }
@@ -131,6 +100,18 @@ class Projection
         if ($this->idVip->contains($idVip)) {
             $this->idVip->removeElement($idVip);
         }
+
+        return $this;
+    }
+
+    public function getIdMovie(): ?Movie
+    {
+        return $this->idMovie;
+    }
+
+    public function setIdMovie(?Movie $idMovie): self
+    {
+        $this->idMovie = $idMovie;
 
         return $this;
     }

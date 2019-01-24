@@ -45,13 +45,14 @@ class Movie
     private $idCategory;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Projection", inversedBy="idMovie")
+     * @ORM\OneToMany(targetEntity="App\Entity\Projection", mappedBy="idMovie")
      */
     private $idProjection;
 
     public function __construct()
     {
         $this->idDirector = new ArrayCollection();
+        $this->idProjection = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,14 +134,33 @@ class Movie
         return $this;
     }
 
-    public function getIdProjection(): ?Projection
+    /**
+     * @return Collection|Projection[]
+     */
+    public function getIdProjection(): Collection
     {
         return $this->idProjection;
     }
 
-    public function setIdProjection(?Projection $idProjection): self
+    public function addIdProjection(Projection $idProjection): self
     {
-        $this->idProjection = $idProjection;
+        if (!$this->idProjection->contains($idProjection)) {
+            $this->idProjection[] = $idProjection;
+            $idProjection->setIdMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdProjection(Projection $idProjection): self
+    {
+        if ($this->idProjection->contains($idProjection)) {
+            $this->idProjection->removeElement($idProjection);
+            // set the owning side to null (unless already changed)
+            if ($idProjection->getIdMovie() === $this) {
+                $idProjection->setIdMovie(null);
+            }
+        }
 
         return $this;
     }
