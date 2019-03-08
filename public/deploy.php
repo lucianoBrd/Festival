@@ -11,6 +11,7 @@
 	// The commands
 	$commands = array(
 		'cd ..',
+		'/usr/local/php7.1/bin/php bin/console cache:clear',
 		'echo $PWD',
 		'whoami',
 		'git reset --hard HEAD',
